@@ -1,0 +1,4 @@
+rootProject.name = 'pocketknife'
+include 'TestPlugin'
+findProject(':TestPlugin')?.name = 'pocketknife-test'
+
