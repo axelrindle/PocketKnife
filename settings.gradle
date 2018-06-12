@@ -1,4 +1,4 @@
-rootProject.name = 'pocketknife'
+rootProject.name = 'PocketKnife'
 include 'TestPlugin'
-findProject(':TestPlugin')?.name = 'pocketknife-test'
+findProject(':TestPlugin')?.name = 'PocketKnife-Test'
 
