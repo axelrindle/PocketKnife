@@ -41,9 +41,3 @@ dependencies {
     // Spigot/Bukkit API
     compileOnly "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
 }
-
-jar {
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
