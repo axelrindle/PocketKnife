@@ -1,14 +1,10 @@
 package de.axelrindle.pocketknife
 
-import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
+import org.bukkit.configuration.InvalidConfigurationException
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
-import java.io.FileWriter
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.IOException
+import java.io.*
 import java.nio.charset.StandardCharsets
 
 /**
@@ -23,6 +19,26 @@ class PocketConfig(
 
     private val configFiles: HashMap<String, String> = HashMap()
     private val configInstances: HashMap<String, YamlConfiguration> = HashMap()
+
+    private fun createDefaultFile(name: String, file: File, defaults: InputStream) {
+        if (!file.exists()) {
+            plugin.logger.info("Creating new config file '$name' at ${file.absolutePath}")
+            if (plugin.dataFolder.exists() || plugin.dataFolder.mkdirs()) {
+                if (file.createNewFile()) {
+                    val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
+                    val writer = FileWriter(file)
+                    IOUtils.write(string, writer)
+                    writer.close()
+                } else {
+                    plugin.logger.severe("Failed to create a config file for '$name'!")
+                }
+            } else {
+                plugin.logger.severe("Failed to create the directory '${plugin.dataFolder.absolutePath}'")
+            }
+            // close the stream
+            defaults.close()
+        }
+    }
 
     /**
      * Registers a new config file.
@@ -50,33 +66,22 @@ class PocketConfig(
         }
 
         // create default file if given
-        if (!file.exists()) {
-            plugin.logger.info("Creating new config file '$name' at ${file.absolutePath}")
-            if (plugin.dataFolder.exists() || plugin.dataFolder.mkdirs()) {
-                if (file.createNewFile()) {
-                    val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
-                    val writer = FileWriter(file)
-                    IOUtils.write(string, writer)
-                    writer.close()
+        createDefaultFile(name, file, defaults)
 
-                    // apply defaults to the config instance
-                    config.addDefaults(YamlConfiguration.loadConfiguration(InputStreamReader(defaults)))
-                } else {
-                    plugin.logger.severe("Failed to create a config file for '$name'!")
-                }
-            } else {
-                plugin.logger.severe("Failed to create the directory '${plugin.dataFolder.absolutePath}'")
-            }
-            // close the stream
-            defaults.close()
-        }
+        // apply defaults to the config instance
+        val reader = InputStreamReader(defaults)
+        config.addDefaults(YamlConfiguration.loadConfiguration(reader))
+        reader.close()
 
         // load and store config instance
         try {
             config.load(file)
             configInstances[name] = config
-        } catch (e: Exception) {
+        } catch (e: IOException) {
+            plugin.logger.severe("Failed to load the configuration from file '${file.absolutePath}'!")
             e.printStackTrace()
+        } catch (e: InvalidConfigurationException) {
+            plugin.logger.severe("The configuration file '${file.absolutePath}' is invalid!")
         }
     }
 
