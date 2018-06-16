@@ -1,5 +1,6 @@
 package de.axelrindle.pocketknife
 
+import de.axelrindle.pocketknife.util.InventoryUtils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -10,7 +11,12 @@ import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * A helper class for easy management of inventories.
+ *
+ * @param plugin A [JavaPlugin] instance.
+ * @param name The name of this inventory. May contain color codes.
+ * @param size The size of this inventory. Must be a multiple of 9 and between 1 and 6.
  */
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 class PocketInventory(
         plugin: JavaPlugin,
         val name: String,
@@ -36,7 +42,9 @@ class PocketInventory(
      *
      * @param position The position of the item in the inventory.
      * @param stack The [ItemStack] to add.
-     * @param handler A click listener called when this item is clicked. Can be
+     * @param handler A click listener called when this item is clicked. Can be omitted.
+     *
+     * @see InventoryUtils.getIndex
      */
     fun setItem(position: Int, stack: ItemStack, handler: ((event: InventoryClickEvent) -> Unit)? = null) {
         // validate position
@@ -76,6 +84,12 @@ class PocketInventory(
             private val pocketInventory: PocketInventory
     ) : Listener {
 
+        /**
+         * Handles a click event on an item. Invokes the appropriate listener
+         * from the [pocketInventory].
+         *
+         * @param e An [InventoryClickEvent] instance.
+         */
         @EventHandler
         fun onItemClicked(e: InventoryClickEvent) {
             e.isCancelled = true
