@@ -22,12 +22,18 @@ compileTestKotlin {
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots"
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
     }
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
+}
+
+test {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -35,9 +41,12 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     // Dependencies
-    compile group: 'org.jetbrains', name: 'annotations', version:'15.0'
+    compile group: 'org.jetbrains', name: 'annotations', version: '15.0'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
 
     // Spigot/Bukkit API
     compileOnly "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
+
+    // Tests
+    testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.6'
 }
