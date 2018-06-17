@@ -1,8 +1,13 @@
 language: java
 jdk:
   - oraclejdk8
+
 before_install:
   - chmod +x gradlew
   - chmod +x gradle/wrapper/gradle-wrapper.jar
+  
+install:
+  - echo "Override default Travis install step to avoid unnecessary './gradlew assemble'."
+  
 script:
   - ./gradlew test build --daemon
