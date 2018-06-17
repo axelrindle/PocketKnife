@@ -35,8 +35,6 @@ class PocketConfig(
             } else {
                 plugin.logger.severe("Failed to create the directory '${plugin.dataFolder.absolutePath}'")
             }
-            // close the stream
-            defaults.close()
         }
     }
 
@@ -72,6 +70,7 @@ class PocketConfig(
         val reader = InputStreamReader(defaults)
         config.addDefaults(YamlConfiguration.loadConfiguration(reader))
         reader.close()
+        defaults.close()
 
         // load and store config instance
         try {
