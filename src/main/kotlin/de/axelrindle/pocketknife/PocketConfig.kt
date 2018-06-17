@@ -24,7 +24,7 @@ class PocketConfig(
         if (!file.exists()) {
             plugin.logger.info("Creating new config file '$name' at ${file.absolutePath}")
             if (plugin.dataFolder.exists() || plugin.dataFolder.mkdirs()) {
-                if (file.createNewFile()) {
+                if (file.parentFile.mkdirs() and file.createNewFile()) {
                     val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
                     val writer = FileWriter(file)
                     IOUtils.write(string, writer)
