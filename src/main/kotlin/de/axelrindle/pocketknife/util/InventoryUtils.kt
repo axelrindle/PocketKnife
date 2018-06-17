@@ -1,6 +1,8 @@
 package de.axelrindle.pocketknife.util
 
 import de.axelrindle.pocketknife.PocketInventory
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
 /**
  * Utility methods for use with the [PocketInventory] class.
@@ -42,5 +44,21 @@ object InventoryUtils {
             throw IllegalArgumentException("row index must be between 1 and 6, got '$row'!")
 
         return INDEX_MATRIX[column-1][row-1]
+    }
+
+    /**
+     * Creates a new [ItemStack].
+     *
+     * @param material The item [Material] to use.
+     * @param name The name of this stack. May contain color codes.
+     * @param lore The description of this stack. May contain color codes.
+     */
+    fun makeStack(material: Material, name: String, vararg lore: String): ItemStack {
+        val stack = ItemStack(material, 1)
+        val meta = stack.itemMeta
+        meta.displayName = name
+        meta.lore = lore.toList()
+        stack.itemMeta = meta
+        return stack
     }
 }

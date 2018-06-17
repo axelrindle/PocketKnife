@@ -1,8 +1,14 @@
+import be.seeseemelk.mockbukkit.MockBukkit
 import de.axelrindle.pocketknife.util.InventoryUtils
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
+import org.bukkit.Material
 
 class InventoryUtilsTest : ShouldSpec({
+
+    // create a fake environment
+    MockBukkit.mock()
+
     "InventoryUtils.getIndex" {
 
         should("return 0 for column 1 and row 1") {
@@ -35,6 +41,20 @@ class InventoryUtilsTest : ShouldSpec({
 
         should("return 32 for column 6 and row 4") {
             InventoryUtils.getIndex(6, 4) shouldBe 32
+        }
+
+    }
+
+    "InventoryUtils.makeStack" {
+
+        should("properly create an ItemStack") {
+            val stack = InventoryUtils.makeStack(Material.DIAMOND, "&b&lDiamond",
+                    "", "&5&Shining bright...")
+
+            stack.type shouldBe Material.DIAMOND
+            stack.amount shouldBe 1
+            stack.itemMeta.displayName shouldBe "&b&lDiamond"
+            stack.itemMeta.lore.size shouldBe 2
         }
 
     }
