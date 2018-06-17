@@ -1,0 +1,6 @@
+# The language to use for localization.
+UseLanguage: "en"
+
+# The default language to use when a key is not found
+# for another language.
+DefaultLanguage: "en"
