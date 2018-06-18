@@ -7,6 +7,9 @@
 # PocketKnife
 > :recycle: Utilities and reuseable components to simplify the process of creating a Bukkit/Spigot plugin.
 
+## Get Started
+To setup a new or existing project with `PocketKnife`, [read this](https://github.com/axelrindle/PocketKnife/wiki/Get-Started).
+
 ## License
 [Apache-2.0](LICENSE)
 
