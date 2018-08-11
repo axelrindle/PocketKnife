@@ -58,8 +58,6 @@ dependencies {
 }
 
 processResources {
-    System.out.println("Processing resources")
-
     filter { String line ->
         line.replaceAll("@VERSION@", project.version.toString())
     }
