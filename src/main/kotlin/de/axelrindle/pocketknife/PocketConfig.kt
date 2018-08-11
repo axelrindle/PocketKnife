@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets
  *
  * @see YamlConfiguration
  */
+@Suppress("unused")
 class PocketConfig(
         private val plugin: JavaPlugin
 ) {

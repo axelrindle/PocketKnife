@@ -66,6 +66,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
                 return false
             }
         } else {
+            @Suppress("ReplaceSizeCheckWithIsNotEmpty")
             return handle(sender, command, if (args.size >= 1) args.copyOfRange(1, args.size) else args)
         }
 
