@@ -1,7 +1,7 @@
 apply plugin: 'kotlin'
 
 group 'com.github.axelrindle'
-version '1.0.0'
+version '1.1.0'
 
 buildscript {
     ext.kotlin_version = '1.2.60'
