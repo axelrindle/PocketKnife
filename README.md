@@ -20,8 +20,13 @@ maven { url 'https://jitpack.io' }
 Dependency:
 
 ```gradle
-compile 'com.github.axelrindle:PocketKnife:LATEST_VERSION'
+compileOnly 'com.github.axelrindle:PocketKnife:LATEST_VERSION'
 ```
+
+**Please don't include the library in your final plugin jar!**
+
+#### Plugin
+Download the [latest release jar](https://github.com/axelrindle/PocketKnife/releases/latest) and put it into your `plugins` folder.
 
 ### Usage
 For documentation and examples, read the [wiki](https://github.com/axelrindle/PocketKnife/wiki).
