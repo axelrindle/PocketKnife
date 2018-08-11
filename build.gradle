@@ -1,10 +1,10 @@
 apply plugin: 'kotlin'
 
-group 'de.axelrindle'
+group 'com.github.axelrindle'
 version '1.0.0'
 
 buildscript {
-    ext.kotlin_version = '1.2.50'
+    ext.kotlin_version = '1.2.60'
 
     repositories {
         mavenCentral()
