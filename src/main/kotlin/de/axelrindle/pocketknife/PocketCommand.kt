@@ -1,5 +1,6 @@
 package de.axelrindle.pocketknife
 
+import org.bukkit.ChatColor
 import org.bukkit.command.*
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -131,6 +132,13 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     }
 
     /**
+     * @return A message shown to the user when he doesn't have permission to execute a command.
+     */
+    open fun messageNoPermission(): String? {
+        return "You don't have permission to execute this command!"
+    }
+
+    /**
      * This should be overridden by sub-commands.
      *
      * @see PluginCommand.getDescription
@@ -153,22 +161,60 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      *
      * @see PluginCommand.getPermission
      */
-    open fun getPermission(): String {
+    open fun getPermission(): String? {
         return pluginCommand.permission
     }
 
     /**
+     * Tests the given [CommandSender] to see if they can perform this
+     * command.
+     *
+     * If they do not have permission, they will be informed that they cannot
+     * do this.
+     *
+     * @param target User to test
      * @see PluginCommand.testPermission
      */
     fun testPermission(target: CommandSender): Boolean {
-        return pluginCommand.testPermission(target)
+        if (testPermissionSilent(target)) {
+            return true
+        }
+
+        if (messageNoPermission() == null) {
+            target.sendMessage(ChatColor.RED.toString() + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.")
+        } else if (messageNoPermission()?.length != 0) {
+            for (line in messageNoPermission()!!
+                    .replace("<permission>", getPermission()!!)
+                    .split("\n")) {
+                target.sendMessage(line)
+            }
+        }
+
+        return false
     }
 
     /**
+     * Tests the given [CommandSender] to see if they can perform this
+     * command.
+     *
+     * No error is sent to the sender.
+     *
+     * @param target User to test
+     * @return true if they can use it, otherwise false
      * @see PluginCommand.testPermissionSilent
      */
     fun testPermissionSilent(target: CommandSender): Boolean {
-        return pluginCommand.testPermissionSilent(target)
+        if (getPermission() == null || getPermission()?.isEmpty()!!) {
+            return true
+        }
+
+        for (p in getPermission()!!.split(";")) {
+            if (target.hasPermission(p)) {
+                return true
+            }
+        }
+
+        return false
     }
 
 
