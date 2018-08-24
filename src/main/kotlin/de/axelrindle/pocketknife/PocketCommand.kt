@@ -131,23 +131,29 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     }
 
     /**
+     * This should be overridden by sub-commands.
+     *
      * @see PluginCommand.getDescription
      */
-    fun getDescription(): String {
+    open fun getDescription(): String {
         return pluginCommand.description
     }
 
     /**
+     * This should be overridden by sub-commands.
+     *
      * @see PluginCommand.getUsage
      */
-    fun getUsage(): String {
+    open fun getUsage(): String {
         return pluginCommand.usage
     }
 
     /**
+     * This should be overridden by sub-commands.
+     *
      * @see PluginCommand.getPermission
      */
-    fun getPermission(): String {
+    open fun getPermission(): String {
         return pluginCommand.permission
     }
 
