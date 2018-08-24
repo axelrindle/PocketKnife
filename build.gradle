@@ -24,7 +24,7 @@ repositories {
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url 'https://jitpack.io' }
+    flatDir { dirs 'libs' }
 }
 
 kotlin {
@@ -53,8 +53,9 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
 
     // Tests
+    testCompile project
     testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.6'
-    testCompile 'com.github.seeseemelk:MockBukkit:master-SNAPSHOT'
+    testCompile name: "MockBukkit"
 }
 
 processResources {
