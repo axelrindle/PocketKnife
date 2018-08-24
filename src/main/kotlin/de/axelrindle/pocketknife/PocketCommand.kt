@@ -54,8 +54,10 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
             // try to find a matching sub-command
             for (sub in subs) {
                 if (sub.getName() == subName) {
-                    sub.onCommand(sender, command, label, if (args.size >= 2) args.copyOfRange(2, args.size) else args)
                     found = true
+                    if (sub.testPermission(sender)) {
+                        sub.onCommand(sender, command, label, if (args.size >= 2) args.copyOfRange(2, args.size) else args)
+                    }
                     break
                 }
             }
