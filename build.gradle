@@ -24,7 +24,7 @@ repositories {
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    flatDir { dirs 'libs' }
+    maven { url 'https://jitpack.io' }
 }
 
 kotlin {
@@ -57,7 +57,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.6'
     testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
-    testCompile name: "MockBukkit"
+    testCompile 'com.github.axelrindle:MockBukkit:v1.8.8'
 }
 
 processResources {
