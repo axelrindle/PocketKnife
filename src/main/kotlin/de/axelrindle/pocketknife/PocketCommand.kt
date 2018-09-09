@@ -57,7 +57,8 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
                 if (sub.getName() == subName) {
                     found = true
                     if (sub.testPermission(sender)) {
-                        sub.onCommand(sender, command, label, if (args.size >= 2) args.copyOfRange(2, args.size) else args)
+                        sub.onCommand(sender, command, label,
+                                if (args.isNotEmpty()) args.copyOfRange(1, args.size) else args)
                     }
                     break
                 }
@@ -70,7 +71,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
             }
         } else {
             @Suppress("ReplaceSizeCheckWithIsNotEmpty")
-            return handle(sender, command, if (args.size >= 1) args.copyOfRange(1, args.size) else args)
+            return handle(sender, command, args)
         }
 
         return true
