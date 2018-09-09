@@ -49,7 +49,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
 
         if (hasSubCommands()) {
             val subs = getSubCommands()
-            val subName = args[1]
+            val subName = args[0]
             var found = false
 
             // try to find a matching sub-command
