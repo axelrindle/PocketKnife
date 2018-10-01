@@ -55,7 +55,7 @@ dependencies {
     // Tests
     testCompile project
     testCompile 'junit:junit:4.12'
-    testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.6'
+    testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.10'
     testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
     testCompile 'com.github.axelrindle:MockBukkit:v1.8.8'
 }
