@@ -50,7 +50,7 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
 
     // Spigot/Bukkit API
-    compileOnly "org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"
+    compileOnly "org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT"
 
     // Tests
     testCompile project
