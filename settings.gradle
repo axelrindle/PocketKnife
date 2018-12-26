@@ -1,4 +1,2 @@
 rootProject.name = 'PocketKnife'
-include 'TestPlugin'
-findProject(':TestPlugin')?.name = 'PocketKnife-Test'
 
