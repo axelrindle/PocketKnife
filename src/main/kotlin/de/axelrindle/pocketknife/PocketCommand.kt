@@ -2,6 +2,7 @@ package de.axelrindle.pocketknife
 
 import org.bukkit.ChatColor
 import org.bukkit.command.*
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -64,17 +65,15 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
                 }
             }
 
-            // no matches, send a message
-            if (!found) {
+            // send "no match" message
+            if (!found && !canBeHandledWhenNoMatch()) {
                 sender.sendMessage(messageNoMatch(subName))
                 return false
             }
-        } else {
-            @Suppress("ReplaceSizeCheckWithIsNotEmpty")
-            return handle(sender, command, args)
         }
 
-        return true
+        // nothing returned; handle normally
+        return handle(sender, command, args)
     }
 
     /**
@@ -126,6 +125,21 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     }
 
     /**
+     * @return Whether a [Player] is required to execute this command.
+     */
+    open fun requirePlayer(): Boolean {
+        return false
+    }
+
+    /**
+     * @return Whether this command should be handled normally via [handle] when no matching
+     *         sub-command is found.
+     */
+    open fun canBeHandledWhenNoMatch(): Boolean {
+        return false
+    }
+
+    /**
      * @return A message shown to the user when no matching sub-command was found.
      */
     open fun messageNoMatch(input: String): String {
@@ -137,6 +151,13 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      */
     open fun messageNoPermission(): String? {
         return "You don't have permission to execute this command!"
+    }
+
+    /**
+     * @return A message shown when the executing [CommandSender] is not a [Player].
+     */
+    open fun messageNoPlayer(sender: CommandSender): String {
+        return "A player is required to execute this command!"
     }
 
     /**
