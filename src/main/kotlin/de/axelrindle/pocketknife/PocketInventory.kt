@@ -23,7 +23,7 @@ class PocketInventory(
         val size: Int
 ) {
 
-    private val listener: PocketInventory.ClickListener
+    private val listener = ClickListener(this)
     private val itemList: HashMap<Int, ItemStack> = HashMap()
     private val clickListeners: HashMap<Int, (event: InventoryClickEvent) -> Unit> = HashMap()
 
@@ -33,7 +33,6 @@ class PocketInventory(
             throw IllegalArgumentException("size must be between 1 and 6, got '$size'!")
 
         // register event listener
-        listener = ClickListener(this)
         Bukkit.getPluginManager().registerEvents(listener, plugin)
     }
 
