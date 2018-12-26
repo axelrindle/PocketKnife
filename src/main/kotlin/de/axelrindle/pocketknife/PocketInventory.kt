@@ -47,8 +47,9 @@ class PocketInventory(
      */
     fun setItem(position: Int, stack: ItemStack, handler: ((event: InventoryClickEvent) -> Unit)? = null) {
         // validate position
-        if (position < 0 || position > 53)
-            throw IllegalArgumentException("position must be between 0 and 53, got '$position'!")
+        val max = size * 9 - 1
+        if (position < 0 || position > max)
+            throw IllegalArgumentException("position must be between 0 and $max, got '$position'!")
 
         itemList[position] = stack
         if (handler == null) return
