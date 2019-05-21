@@ -112,7 +112,7 @@ class PocketConfig(
         // load from the disk and overwrite the mapped value
         val defaults = configInstances[name]?.defaults // preserve initially loaded defaults
         val config = YamlConfiguration.loadConfiguration(File(configFiles[name]))
-        config.defaults = defaults
+        if (defaults != null) config.setDefaults(defaults)
         configInstances[name] = config
     }
 
@@ -137,7 +137,7 @@ class PocketConfig(
         handler(config)
 
         // save to disk
-        val file = configFiles[name]
+        val file = configFiles[name]!!
         config.save(file)
     }
 }
