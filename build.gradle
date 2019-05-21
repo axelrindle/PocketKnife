@@ -1,4 +1,5 @@
 apply plugin: 'kotlin'
+apply plugin: 'maven'
 
 group 'com.github.axelrindle'
 version '1.2.1'
@@ -13,6 +14,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -24,13 +26,6 @@ repositories {
     mavenCentral()
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url 'https://jitpack.io' }
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
 }
 
 test {
@@ -60,9 +55,13 @@ dependencies {
 }
 
 processResources {
-    filter { String line ->
+    filter { line ->
         line.replaceAll("@VERSION@", project.version.toString())
     }
+}
+
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
