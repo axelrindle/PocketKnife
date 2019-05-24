@@ -115,7 +115,9 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      *
      * @param sender Source of the command.
      */
-    abstract fun sendHelp(sender: CommandSender)
+    open fun sendHelp(sender: CommandSender) {
+        sender.sendMessage("${getUsage()} - ${getDescription()}")
+    }
 
     /**
      * @return An [ArrayList] of sub-commands.
