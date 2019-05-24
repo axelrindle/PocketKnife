@@ -2,6 +2,7 @@ package de.axelrindle.pocketknife
 
 import org.bukkit.plugin.java.JavaPlugin
 
+@Suppress("unused")
 class PocketKnifePlugin : JavaPlugin() {
 
     override fun onEnable() {
