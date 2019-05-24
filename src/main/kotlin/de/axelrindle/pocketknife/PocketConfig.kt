@@ -21,7 +21,7 @@ class PocketConfig(
     private val configFiles: HashMap<String, String> = HashMap()
     private val configInstances: HashMap<String, YamlConfiguration> = HashMap()
 
-    private fun createDefaultFile(name: String, file: File, defaults: InputStream) {
+    private fun createDefaultFile(name: String, file: File, defaults: InputStream?) {
         if (!file.exists()) {
             plugin.logger.info("Creating new config file '$name' at ${file.absolutePath}")
             if (plugin.dataFolder.exists() || plugin.dataFolder.mkdirs()) {
@@ -31,10 +31,12 @@ class PocketConfig(
                     file.parentFile.mkdirs()
 
                 if (file.createNewFile()) {
-                    val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
-                    val writer = FileWriter(file)
-                    IOUtils.write(string, writer)
-                    writer.close()
+                    if (defaults != null) {
+                        val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
+                        val writer = FileWriter(file)
+                        IOUtils.write(string, writer)
+                        writer.close()
+                    }
                 } else {
                     plugin.logger.severe("Failed to create a config file for '$name'!")
                 }
@@ -53,7 +55,7 @@ class PocketConfig(
      * @throws IllegalArgumentException If a config is already registered.
      * @throws IOException If an I/O error occurs.
      */
-    fun register(name: String, defaults: InputStream) {
+    fun register(name: String, defaults: InputStream? = null) {
         // we don't want duplicated or overwritten data
         if (configFiles.containsKey(name))
             throw IllegalArgumentException("A config named '$name' is already registered!")
@@ -73,10 +75,12 @@ class PocketConfig(
         createDefaultFile(name, file, defaults)
 
         // apply defaults to the config instance
-        val reader = InputStreamReader(defaults)
-        config.addDefaults(YamlConfiguration.loadConfiguration(reader))
-        reader.close()
-        defaults.close()
+        if (defaults != null) {
+            val reader = InputStreamReader(defaults)
+            config.addDefaults(YamlConfiguration.loadConfiguration(reader))
+            reader.close()
+            defaults.close()
+        }
 
         // load and store config instance
         try {
@@ -110,8 +114,8 @@ class PocketConfig(
             throw IllegalArgumentException("No config '$name' is registered!")
 
         // load from the disk and overwrite the mapped value
-        val defaults = configInstances[name]?.defaults // preserve initially loaded defaults
         val config = YamlConfiguration.loadConfiguration(File(configFiles[name]))
+        val defaults = configInstances[name]?.defaults // preserve initially loaded defaults
         if (defaults != null) config.setDefaults(defaults)
         configInstances[name] = config
     }
