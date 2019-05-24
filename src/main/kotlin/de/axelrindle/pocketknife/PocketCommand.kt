@@ -57,10 +57,9 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
                 if (sub.getName().toLowerCase() == subName.toLowerCase()) {
                     found = true
                     if (sub.testPermission(sender)) {
-                        sub.onCommand(sender, command, label,
+                        return sub.onCommand(sender, command, label,
                                 if (args.isNotEmpty()) args.copyOfRange(1, args.size) else args)
                     }
-                    break
                 }
             }
 
