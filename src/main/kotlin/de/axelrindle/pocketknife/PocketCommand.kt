@@ -47,7 +47,6 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
 
     final override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>):
             Boolean {
-
         if (hasSubCommands() && args.isNotEmpty()) {
             val subs = getSubCommands()
             val subName = args[0]
@@ -55,7 +54,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
 
             // try to find a matching sub-command
             for (sub in subs) {
-                if (sub.getName() == subName) {
+                if (sub.getName().toLowerCase() == subName.toLowerCase()) {
                     found = true
                     if (sub.testPermission(sender)) {
                         sub.onCommand(sender, command, label,
