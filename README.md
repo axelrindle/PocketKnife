@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/axelrindle/PocketKnife.svg?branch=master)](https://travis-ci.com/axelrindle/PocketKnife)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/44f2287392d3482c86bf467223f2e88a)](https://www.codacy.com/app/axel.rindle/PocketKnife?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=axelrindle/PocketKnife&amp;utm_campaign=Badge_Grade)
-[![Known Vulnerabilities](https://snyk.io/test/github/axelrindle/PocketKnife/badge.svg?targetFile=build.gradle)](https://snyk.io/test/github/axelrindle/PocketKnife?targetFile=build.gradle)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/44f2287392d3482c86bf467223f2e88a)](https://www.codacy.com/app/axelrindle/PocketKnife?utm_source=github.com&utm_medium=referral&utm_content=axelrindle/PocketKnife&utm_campaign=Badge_Coverage)
 [![](https://jitpack.io/v/axelrindle/PocketKnife.svg)](https://jitpack.io/#axelrindle/PocketKnife)
 
 # PocketKnife
