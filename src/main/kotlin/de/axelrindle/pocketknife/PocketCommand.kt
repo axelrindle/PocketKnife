@@ -17,7 +17,6 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     //
 
     companion object {
-
         /**
          * Registers a [PocketCommand] to be the [CommandExecutor] for a [PluginCommand].
          *
@@ -79,10 +78,34 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      */
     final override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>):
             MutableList<String> {
-        // TODO: Implement fully functional tab-completion with support for sub-commands
-        return ArrayList()
-    }
+        return if (args.size == 1) { // top level completion
+            val list = ArrayList<String>()
 
+            if (hasSubCommands()) {
+                getSubCommands().forEach {
+                    if (it.getName().contains(args[0], true)) {
+                        list += it.getName()
+                    }
+                }
+            }
+            else if (!hasSubCommands() || canBeHandledWhenNoMatch()) {
+                list.addAll(tabComplete(sender, command, args))
+            }
+
+            list
+        }
+        else { // recursive deep completion
+            val list = ArrayList<String>()
+            getSubCommands()
+                    .stream()
+                    .filter { it.getName().equals(args[0], true) }
+                    .findFirst()
+                    .ifPresent {
+                        list.addAll(it.onTabComplete(sender, command, alias, args.copyOfRange(1, args.size)))
+                    }
+            list
+        }
+    }
 
     // # # # # # # # # # # # # #
     // Abstract/Inherited Stuff
@@ -106,6 +129,11 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     open fun handle(sender: CommandSender, command: Command, args: Array<out String>): Boolean {
         sendHelp(sender)
         return true
+    }
+
+    open fun tabComplete(sender: CommandSender, command: Command, args: Array<out String>):
+            MutableList<String> {
+        return ArrayList()
     }
 
     /**
