@@ -46,16 +46,14 @@ class InventoryUtilsTest : ShouldSpec({
     }
 
     "InventoryUtils.makeStack" {
-
         should("properly create an ItemStack") {
             val stack = InventoryUtils.makeStack(Material.DIAMOND, "&b&lDiamond",
                     "", "&5&Shining bright...")
 
             stack.type shouldBe Material.DIAMOND
             stack.amount shouldBe 1
-            stack.itemMeta.displayName shouldBe "&b&lDiamond"
-            stack.itemMeta.lore.size shouldBe 2
+            stack.itemMeta!!.displayName shouldBe "&b&lDiamond"
+            stack.itemMeta!!.lore!!.size shouldBe 2
         }
-
     }
 })
