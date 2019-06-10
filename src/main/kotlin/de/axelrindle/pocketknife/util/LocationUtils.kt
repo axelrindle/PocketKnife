@@ -24,18 +24,19 @@ object LocationUtils {
         list.add(pos.z)
         list.add(pos.pitch.toDouble())
         list.add(pos.yaw.toDouble())
-        return pos.world!!.name + SEPARATOR + list.joinToString(SEPARATOR)
+        return (pos.world?.name ?: "null") + SEPARATOR + list.joinToString(SEPARATOR)
     }
 
     /**
      * Parses a [String] into a [Location].
      *
      * @param s The serialized [Location].
-     * @return The
+     * @return The deserialized location.
      */
     fun deserializeLocation(s: String): Location {
         val list = s.split(SEPARATOR)
-        return Location(Bukkit.getWorld(list[0]),
+        val world = if (list[0] == "null") null else Bukkit.getWorld(list[0])
+        return Location(world,
             list[1].toDouble(), list[2].toDouble(), list[3].toDouble(),
             list[4].toFloat(), list[5].toFloat())
     }
