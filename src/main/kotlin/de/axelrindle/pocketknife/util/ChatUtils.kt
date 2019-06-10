@@ -2,6 +2,9 @@ package de.axelrindle.pocketknife.util
 
 import org.bukkit.ChatColor
 
+/**
+ * Utility methods for the ingame chat.
+ */
 @Suppress("unused")
 object ChatUtils {
 

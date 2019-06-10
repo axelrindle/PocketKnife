@@ -29,6 +29,12 @@ class PocketLang(
         supportedLanguages += language
     }
 
+    /**
+     * Register one or more supported languages.
+     *
+     * @param list The list of languages to register.
+     * @see addLanguage
+     */
     fun addLanguages(vararg list: String) = list.forEach(this::addLanguage)
 
     /**
