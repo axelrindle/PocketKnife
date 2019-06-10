@@ -1,15 +1,19 @@
+package utils
+
 import be.seeseemelk.mockbukkit.MockBukkit
 import de.axelrindle.pocketknife.util.InventoryUtils
 import io.kotlintest.shouldBe
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.ShouldSpec
 import org.bukkit.Material
+import java.lang.IllegalStateException
 
 class InventoryUtilsTest : ShouldSpec({
 
     // create a fake environment
     MockBukkit.mock()
 
-    "InventoryUtils.getIndex" {
+    "getIndex" {
 
         should("return 0 for column 1 and row 1") {
             InventoryUtils.getIndex(1, 1) shouldBe 0
@@ -43,9 +47,16 @@ class InventoryUtilsTest : ShouldSpec({
             InventoryUtils.getIndex(6, 4) shouldBe 32
         }
 
+        shouldThrow<IllegalArgumentException> {
+            InventoryUtils.getIndex(0, 5)
+        }
+
+        shouldThrow<IllegalArgumentException> {
+            InventoryUtils.getIndex(0, 5)
+        }
     }
 
-    "InventoryUtils.makeStack" {
+    "makeStack" {
         should("properly create an ItemStack") {
             val stack = InventoryUtils.makeStack(Material.DIAMOND, "&b&lDiamond",
                     "", "&5&Shining bright...")

@@ -1,3 +1,5 @@
+package utils
+
 import de.axelrindle.pocketknife.util.UUIDUtils
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
