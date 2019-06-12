@@ -108,6 +108,7 @@ class PocketConfig(
      *
      * @throws IllegalArgumentException If the given config was not found.
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     fun reload(name: String) {
         // make sure the given config exists
         if (!configInstances.containsKey(name))
@@ -118,6 +119,15 @@ class PocketConfig(
         val defaults = configInstances[name]?.defaults // preserve initially loaded defaults
         if (defaults != null) config.setDefaults(defaults)
         configInstances[name] = config
+    }
+
+    /**
+     * Reloads all config files from the disk.
+     *
+     * @see reload
+     */
+    fun reloadAll() {
+        configFiles.keys.forEach(this::reload)
     }
 
     /**
