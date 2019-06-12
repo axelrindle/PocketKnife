@@ -1,6 +1,6 @@
 package de.axelrindle.pocketknife
 
-import org.bukkit.ChatColor
+import de.axelrindle.pocketknife.util.Extensions.sendMessageF
 import org.bukkit.command.*
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -64,7 +64,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
 
             // send "no match" message
             if (!found && !canBeHandledWhenNoMatch()) {
-                sender.sendMessage(messageNoMatch(subName))
+                sender.sendMessageF(messageNoMatch(subName))
                 return false
             }
         }
@@ -237,12 +237,12 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
         }
 
         if (messageNoPermission() == null) {
-            target.sendMessage(ChatColor.RED.toString() + "I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.")
+            target.sendMessageF("&cI'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.")
         } else if (messageNoPermission()?.length != 0) {
             for (line in messageNoPermission()!!
                     .replace("<permission>", getPermission()!!)
                     .split("\n")) {
-                target.sendMessage(line)
+                target.sendMessageF(line)
             }
         }
 
