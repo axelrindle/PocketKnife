@@ -1,6 +1,6 @@
 package de.axelrindle.pocketknife
 
-import de.axelrindle.pocketknife.util.Extensions.sendMessageF
+import de.axelrindle.pocketknife.util.sendMessageF
 import org.bukkit.command.*
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
