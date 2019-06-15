@@ -94,7 +94,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
                     }
                 }
             }
-            else if (!hasSubCommands() || canBeHandledWhenNoMatch()) {
+            if (!hasSubCommands() || canBeHandledWhenNoMatch()) {
                 list.addAll(tabComplete(sender, command, args))
             }
 
