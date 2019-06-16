@@ -6,7 +6,6 @@ import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.specs.ShouldSpec
 import org.bukkit.Material
-import java.lang.IllegalStateException
 
 class InventoryUtilsTest : ShouldSpec({
 
