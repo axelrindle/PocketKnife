@@ -16,18 +16,8 @@ jobs:
         java-version: 1.8
     - name: Build project
       run: ./gradlew build
-      
-  test:
-    needs: build
-    runs-on: ubuntu-18.04
-    steps:
     - name: Run tests
       run: ./gradlew test
-      
-  coverage:
-    needs: test
-    runs-on: ubuntu-18.04
-    steps:
     - name: Generate coverage report
       env:
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
