@@ -1,9 +1,11 @@
 import be.seeseemelk.mockbukkit.MockBukkit
 import de.axelrindle.pocketknife.PocketConfig
 import de.axelrindle.pocketknife.PocketLang
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
+import io.kotlintest.*
+import io.kotlintest.matchers.endWith
 import io.kotlintest.specs.ShouldSpec
+import java.lang.IllegalArgumentException
+import java.lang.IllegalStateException
 
 class PocketLangTest : ShouldSpec({
 
@@ -20,8 +22,21 @@ class PocketLangTest : ShouldSpec({
         pocketLang.getLocaleConfig() shouldBe null
     }
 
+    should("PocketLang.init() fail without adding languages") {
+        val exception = shouldThrow<IllegalStateException> {
+            pocketLang.init()
+        }
+        exception.message shouldBe "No languages were registered!"
+    }
+
     should("PocketLang.init() succeed") {
         pocketLang.addLanguages("en", "de")
+
+        val exception = shouldThrow<IllegalArgumentException> {
+            pocketLang.addLanguage("en")
+        }
+        exception.message should endWith("is already registered!")
+
         pocketLang.init()
     }
 
