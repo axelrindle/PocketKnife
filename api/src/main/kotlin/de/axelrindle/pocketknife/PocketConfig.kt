@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets
  * Eliminates the need for manually handling loading and saving.
  *
  * @see YamlConfiguration
+ * @since 1.0.0
  */
 @Suppress("unused")
 class PocketConfig(
@@ -125,6 +126,7 @@ class PocketConfig(
      * Reloads all config files from the disk.
      *
      * @see reload
+     * @since 1.3.0
      */
     fun reloadAll() {
         configFiles.keys.forEach(this::reload)
@@ -132,9 +134,6 @@ class PocketConfig(
 
     /**
      * Edit a configuration. Saving is done automatically.
-     *
-     * **Please note** that is generally advised to not allow config changes in-game, because
-     * this could possibly be abused by persons with bad intentions.
      *
      * @param name The config to edit.
      *

@@ -5,6 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * A helper class which assists in localizing your plugin.
+ *
+ * @since 1.0.0
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class PocketLang(

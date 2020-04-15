@@ -15,6 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin
  * @param plugin A [JavaPlugin] instance.
  * @param name The name of this inventory. May contain color codes.
  * @param size The size of this inventory. Must be a multiple of 9 and between 1 and 6.
+ *
+ * @since 1.0.0
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 class PocketInventory(

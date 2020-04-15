@@ -8,6 +8,8 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * An abstract [CommandExecutor] implementation with support for sub-commands,
  * automated help and tab-completion.
+ *
+ * @since 1.0.0
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate", "CanBeParameter")
 abstract class PocketCommand : CommandExecutor, TabCompleter {
