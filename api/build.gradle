@@ -2,6 +2,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm"
     id "maven"
     id "jacoco"
+    id "maven-publish"
 }
 
 compileKotlin {
@@ -48,5 +49,23 @@ dependencies {
 }
 
 jar {
-    archiveBaseName.set("PocketKnife")
+    archiveBaseName.set("PocketKnife-API")
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/axelrindle/PocketKnife")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from components.java
+        }
+    }
 }
