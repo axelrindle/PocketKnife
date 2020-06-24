@@ -43,9 +43,9 @@ dependencies {
 
     // Tests
     testCompile 'junit:junit:4.12'
-    testCompile fileTree(include: ['*.jar'], dir: '../libs')
     testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.10'
     testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+    testCompile 'com.github.seeseemelk:MockBukkit:v1.15-SNAPSHOT'
 }
 
 jar {
