@@ -12,6 +12,11 @@ import java.util.logging.Logger
 /**
  * Fetches the UUID for a player name from Mojang's API.
  */
+@Deprecated(
+        "The custom task has been replaced by a call to Bukkit#getOfflinePlayer. " +
+                "Use that instead or the async lookup method.",
+        ReplaceWith("Bukkit.getOfflinePlayer(name).uniqueId", "org.bukkit.Bukkit")
+)
 class RetrieveUUIDTask internal constructor(
         private val nameToLookup: String
 ) {

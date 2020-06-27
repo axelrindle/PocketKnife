@@ -45,6 +45,11 @@ object UUIDUtils {
      * @param name The username.
      * @param callback A callback which consumes the fetched [UUID], or null on error.
      */
+    @Deprecated(
+            "The custom task has been replaced by a call to Bukkit#getOfflinePlayer. " +
+                    "Use that instead or the async lookup method.",
+            ReplaceWith("Bukkit.getOfflinePlayer(name).uniqueId", "org.bukkit.Bukkit")
+    )
     fun lookup(name: String, callback: Consumer<in UUID?>) {
         val runnable = RetrieveUUIDTask(name)
         val future = CompletableFuture.supplyAsync(runnable::run)
@@ -57,6 +62,11 @@ object UUIDUtils {
      * @param name The username.
      * @return The fetched [UUID] or null on error.
      */
+    @Deprecated(
+            "The custom task has been replaced by a call to Bukkit#getOfflinePlayer. " +
+                    "Use that instead or the async lookup method.",
+            ReplaceWith("Bukkit.getOfflinePlayer(name).uniqueId", "org.bukkit.Bukkit")
+    )
     fun lookupSync(name: String): UUID? {
         return RetrieveUUIDTask(name).run()
     }
