@@ -43,7 +43,9 @@ dependencies {
 
     // Tests
     testCompile 'junit:junit:4.12'
-    testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.10'
+    testCompile "io.kotest:kotest-runner-junit5-jvm:$kotest_version"
+    testCompile "io.kotest:kotest-assertions-core-jvm:$kotest_version"
+    testCompile "io.kotest:kotest-property-jvm:$kotest_version"
     testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
     testCompile 'com.github.seeseemelk:MockBukkit:v1.15-SNAPSHOT'
 }

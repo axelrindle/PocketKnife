@@ -1,7 +1,7 @@
 import be.seeseemelk.mockbukkit.MockBukkit
 import de.axelrindle.pocketknife.PocketInventory
-import io.kotlintest.shouldThrow
-import io.kotlintest.specs.ShouldSpec
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.ShouldSpec
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
@@ -10,9 +10,9 @@ class PocketInventoryTest : ShouldSpec({
     // create a fake bukkit environment
     val mockedPlugin = MockBukkit.createMockPlugin()
 
-    "PocketInventory" {
+    context("PocketInventory") {
 
-        "instantiation" {
+        context("instantiation") {
             should("succeed with size of 4") {
                 PocketInventory(mockedPlugin, "MyInventory", 4)
             }
@@ -25,7 +25,7 @@ class PocketInventoryTest : ShouldSpec({
 
         val pocketInventory = PocketInventory(mockedPlugin, "MyInventory", 6)
 
-        "setItem" {
+        context("setItem") {
             should("fail with negative position") {
                 shouldThrow<IllegalArgumentException> {
                     pocketInventory.setItem(-4, ItemStack(Material.APPLE))

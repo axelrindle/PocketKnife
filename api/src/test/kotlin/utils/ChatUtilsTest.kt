@@ -1,12 +1,12 @@
 package utils
 
 import de.axelrindle.pocketknife.util.ChatUtils
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.ShouldSpec
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
 
 class ChatUtilsTest : ShouldSpec({
 
-    "formatColors" {
+    context("formatColors") {
         should("replace & with §") {
             ChatUtils.formatColors("&cHello World") shouldBe "§cHello World"
         }

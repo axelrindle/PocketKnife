@@ -1,10 +1,8 @@
 package utils
 
 import de.axelrindle.pocketknife.util.UUIDUtils
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.ShouldSpec
-import java.util.*
-import java.util.function.Consumer
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
 
 class UUIDUtilsTest : ShouldSpec({
 

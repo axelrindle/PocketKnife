@@ -1,9 +1,12 @@
 import be.seeseemelk.mockbukkit.MockBukkit
 import de.axelrindle.pocketknife.PocketConfig
 import de.axelrindle.pocketknife.PocketLang
-import io.kotlintest.*
-import io.kotlintest.matchers.endWith
-import io.kotlintest.specs.ShouldSpec
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.should
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.endWith
 import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
 

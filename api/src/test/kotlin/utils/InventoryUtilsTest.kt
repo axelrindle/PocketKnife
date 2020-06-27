@@ -2,9 +2,9 @@ package utils
 
 import be.seeseemelk.mockbukkit.MockBukkit
 import de.axelrindle.pocketknife.util.InventoryUtils
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldThrow
-import io.kotlintest.specs.ShouldSpec
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.shouldBe
 import org.bukkit.Material
 
 class InventoryUtilsTest : ShouldSpec({
@@ -12,7 +12,7 @@ class InventoryUtilsTest : ShouldSpec({
     // create a fake environment
     MockBukkit.mock()
 
-    "getIndex" {
+    context("getIndex") {
 
         should("return 0 for column 1 and row 1") {
             InventoryUtils.getIndex(1, 1) shouldBe 0
@@ -55,7 +55,7 @@ class InventoryUtilsTest : ShouldSpec({
         }
     }
 
-    "makeStack" {
+    context("makeStack") {
         should("properly create an ItemStack") {
             val stack = InventoryUtils.makeStack(Material.DIAMOND, "&b&lDiamond",
                     "", "&5&Shining bright...")
