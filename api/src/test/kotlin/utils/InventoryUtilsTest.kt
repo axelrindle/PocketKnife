@@ -47,7 +47,7 @@ class InventoryUtilsTest : ShouldSpec({
         }
 
         shouldThrow<IllegalArgumentException> {
-            InventoryUtils.getIndex(0, 5)
+            InventoryUtils.getIndex(2, 7)
         }
     }
 
