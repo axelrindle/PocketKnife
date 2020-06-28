@@ -94,8 +94,8 @@ class PocketInventory(
          */
         @EventHandler
         fun onItemClicked(e: InventoryClickEvent) {
-            e.isCancelled = true
             pocketInventory.clickListeners[e.slot]?.invoke(e)
+            e.isCancelled = true
         }
     }
 }
