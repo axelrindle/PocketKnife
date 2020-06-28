@@ -49,16 +49,15 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     final override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>):
             Boolean {
         if (hasSubCommands() && args.isNotEmpty()) {
-            val subs = getSubCommands()
             val subName = args[0]
             var found = false
 
             // try to find a matching sub-command
-            for (sub in subs) {
-                if (sub.getName().toLowerCase() == subName.toLowerCase()) {
+            for (subCommand in subCommands) {
+                if (subCommand.getName().toLowerCase() == subName.toLowerCase()) {
                     found = true
-                    if (sub.testPermission(sender)) {
-                        return sub.onCommand(sender, command, label,
+                    if (subCommand.testPermission(sender)) {
+                        return subCommand.onCommand(sender, command, label,
                                 if (args.isNotEmpty()) args.copyOfRange(1, args.size) else args)
                     }
                 }
@@ -90,7 +89,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
             val list = ArrayList<String>()
 
             if (hasSubCommands()) {
-                getSubCommands().forEach {
+                subCommands.forEach {
                     if (it.getName().contains(args[0], true)) {
                         list += it.getName()
                     }
@@ -104,7 +103,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
         }
         else { // recursive deep completion
             val list = ArrayList<String>()
-            getSubCommands()
+            subCommands
                     .stream()
                     .filter { it.getName().equals(args[0], true) }
                     .findFirst()
@@ -118,6 +117,11 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     // # # # # # # # # # # # # #
     // Abstract/Inherited Stuff
     //
+
+    /**
+     * Defines the list of available sub-commands.
+     */
+    protected open val subCommands: ArrayList<PocketCommand> = ArrayList()
 
     /**
      * @return The name of this command.
@@ -151,13 +155,6 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      */
     open fun sendHelp(sender: CommandSender) {
         sender.sendMessage("${getUsage()} - ${getDescription()}")
-    }
-
-    /**
-     * @return An [ArrayList] of sub-commands.
-     */
-    open fun getSubCommands(): ArrayList<PocketCommand> {
-        return ArrayList()
     }
 
     /**
@@ -281,6 +278,6 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     //
 
     private fun hasSubCommands(): Boolean {
-        return getSubCommands().size > 0
+        return subCommands.size > 0
     }
 }
