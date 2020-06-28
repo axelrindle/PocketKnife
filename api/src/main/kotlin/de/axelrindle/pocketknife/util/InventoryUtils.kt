@@ -20,7 +20,7 @@ object InventoryUtils {
     }
 
     /**
-     * Returns an inventory index from the given matrix.
+     * Returns an inventory index from the given matrix coordinates.
      *
      * An inventory index matrix looks like this:
      * ```
