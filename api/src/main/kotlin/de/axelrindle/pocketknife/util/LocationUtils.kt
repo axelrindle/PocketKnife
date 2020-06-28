@@ -6,7 +6,6 @@ import org.bukkit.Location
 /**
  * Utilities for working with [Location]s.
  */
-@Suppress("unused")
 object LocationUtils {
 
     private const val SEPARATOR = ";"
