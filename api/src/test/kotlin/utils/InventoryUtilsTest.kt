@@ -1,6 +1,5 @@
 package utils
 
-import be.seeseemelk.mockbukkit.MockBukkit
 import de.axelrindle.pocketknife.util.InventoryUtils
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
@@ -8,9 +7,6 @@ import io.kotest.matchers.shouldBe
 import org.bukkit.Material
 
 class InventoryUtilsTest : ShouldSpec({
-
-    // create a fake environment
-    MockBukkit.mock()
 
     context("getIndex") {
 
