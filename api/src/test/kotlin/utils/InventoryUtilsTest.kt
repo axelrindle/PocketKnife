@@ -62,8 +62,14 @@ class InventoryUtilsTest : ShouldSpec({
 
             stack.type shouldBe Material.DIAMOND
             stack.amount shouldBe 1
-            stack.itemMeta!!.displayName shouldBe "&b&lDiamond"
-            stack.itemMeta!!.lore!!.size shouldBe 2
+            stack.itemMeta!!.apply {
+                displayName shouldBe "&b&lDiamond"
+                lore!!.apply {
+                    size shouldBe 2
+                    get(0) shouldBe ""
+                    get(1) shouldBe "&5&Shining bright..."
+                }
+            }
         }
     }
 })

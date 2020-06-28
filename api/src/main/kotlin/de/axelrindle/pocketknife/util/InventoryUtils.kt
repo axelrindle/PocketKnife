@@ -55,10 +55,10 @@ object InventoryUtils {
      */
     fun makeStack(material: Material, name: String, vararg lore: String): ItemStack {
         val stack = ItemStack(material, 1)
-        val meta = stack.itemMeta!!
-        meta.setDisplayName(name)
-        meta.lore = lore.toList()
-        stack.itemMeta = meta
+        stack.updateMeta {
+            setDisplayName(name)
+            setLore(lore.toList())
+        }
         return stack
     }
 }
