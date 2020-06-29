@@ -6,6 +6,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -72,10 +73,13 @@ class PocketInventory(
      * Open this inventory for a player.
      *
      * @param player The [Player] who should see the inventory.
+     * @param consumer An optional callback that can be used to modify the
+     *                 created [Inventory] instance before the [Player] sees it.
      */
-    fun open(player: Player) {
+    fun open(player: Player, consumer: ((inv: Inventory) -> Unit)? = null) {
         val inv = Bukkit.createInventory(player, size * 9, name)
         itemList.forEach(inv::setItem)
+        consumer?.invoke(inv)
         player.openInventory(inv)
     }
 
