@@ -26,21 +26,15 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
          * @param pocketCommand The [PocketCommand] instance.
          */
         fun register(plugin: JavaPlugin, pocketCommand: PocketCommand) {
-            val pluginCommand = plugin.getCommand(pocketCommand.getName())
-            pocketCommand.pluginCommand = pluginCommand!!
-            pocketCommand.register()
+            val pluginCommand = plugin.getCommand(pocketCommand.getName())!!
+            pocketCommand.pluginCommand = pluginCommand.apply {
+                setExecutor(pocketCommand)
+                tabCompleter = pocketCommand
+            }
         }
     }
 
     private lateinit var pluginCommand: PluginCommand
-
-    private fun register() {
-        this.pluginCommand.apply {
-            this.setExecutor(this@PocketCommand)
-            this.tabCompleter = this@PocketCommand
-        }
-    }
-
 
     // # # # # # # # # # # # #
     // Custom Implementation
