@@ -253,7 +253,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      * @see PluginCommand.testPermissionSilent
      */
     fun testPermissionSilent(target: CommandSender): Boolean {
-        if (getPermission() == null || getPermission()?.isEmpty()!!) {
+        if (getPermission().isNullOrBlank()) {
             return true
         }
 
