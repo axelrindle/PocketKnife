@@ -102,10 +102,10 @@ class PocketLang(
         // only default
         if (supposed == null && default != null) {
             plugin.logger.warning("Only a default translation was found for localization key '$key'!")
-            return default.format(args)
+            return default.format(*args)
         }
 
         // translated
-        return supposed?.format(args)
+        return supposed?.format(*args)
     }
 }
