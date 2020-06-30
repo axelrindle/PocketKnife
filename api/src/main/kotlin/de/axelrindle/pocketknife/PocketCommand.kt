@@ -45,25 +45,31 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
         // make sure the sender has the required permission
         if (!testPermission(sender)) return true
 
+        // check for sub-commands
         if (hasSubCommands() && args.isNotEmpty()) {
             val subName = args[0]
             var found = false
+            var result = false
 
             // try to find a matching sub-command
             for (subCommand in subCommands) {
                 if (subCommand.getName().toLowerCase() == subName.toLowerCase()) {
                     found = true
-                    if (subCommand.testPermission(sender)) {
-                        return subCommand.onCommand(sender, command, label,
-                                if (args.isNotEmpty()) args.copyOfRange(1, args.size) else args)
-                    }
+                    result = subCommand.onCommand(sender, command, label,
+                            if (args.isNotEmpty()) args.copyOfRange(1, args.size) else args)
+                    break
                 }
             }
 
-            // send "no match" message
-            if (!found && !canBeHandledWhenNoMatch()) {
-                sender.sendMessageF(messageNoMatch(subName))
-                return false
+            // when the command can't be handled on it's own,
+            // handle the result
+            if (!canBeHandledWhenNoMatch()) {
+                return if (!found) {
+                    sender.sendMessageF(messageNoMatch(subName))
+                    true
+                } else {
+                    result
+                }
             }
         }
 
