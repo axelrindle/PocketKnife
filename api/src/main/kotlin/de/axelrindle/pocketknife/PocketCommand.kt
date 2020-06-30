@@ -42,6 +42,9 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
 
     final override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>):
             Boolean {
+        // make sure the sender has the required permission
+        if (!testPermission(sender)) return true
+
         if (hasSubCommands() && args.isNotEmpty()) {
             val subName = args[0]
             var found = false
@@ -84,12 +87,12 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
 
             if (hasSubCommands()) {
                 subCommands.forEach {
-                    if (it.getName().contains(args[0], true)) {
+                    if (it.getName().contains(args[0], true) && it.testPermissionSilent(sender)) {
                         list += it.getName()
                     }
                 }
             }
-            if (!hasSubCommands() || canBeHandledWhenNoMatch()) {
+            if (testPermissionSilent(sender) && (!hasSubCommands() || canBeHandledWhenNoMatch())) {
                 list.addAll(tabComplete(sender, command, args))
             }
 
@@ -100,6 +103,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
             subCommands
                     .stream()
                     .filter { it.getName().equals(args[0], true) }
+                    .filter { it.testPermissionSilent(sender) }
                     .findFirst()
                     .ifPresent {
                         list.addAll(it.onTabComplete(sender, command, alias, args.copyOfRange(1, args.size)))
