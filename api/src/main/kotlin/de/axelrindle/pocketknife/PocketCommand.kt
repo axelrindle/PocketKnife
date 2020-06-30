@@ -66,7 +66,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
 
         // if a player is required, check for him
         if (requirePlayer() && sender !is Player) {
-            sender.sendMessage(messageNoPlayer(sender))
+            sender.sendMessageF(messageNoPlayer(sender))
             return true
         }
 
