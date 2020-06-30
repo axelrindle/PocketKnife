@@ -108,6 +108,8 @@ class PocketInventory(
          */
         @EventHandler
         fun onItemClicked(e: InventoryClickEvent) {
+            if (e.view.title != pocketInventory.name) return
+
             pocketInventory.clickListeners[e.slot]?.invoke(e)
             e.isCancelled = true
         }
