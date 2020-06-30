@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package de.axelrindle.pocketknife.util
 
 import org.bukkit.command.CommandSender
