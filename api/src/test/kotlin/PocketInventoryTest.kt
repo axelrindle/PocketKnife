@@ -14,6 +14,7 @@ class PocketInventoryTest : ShouldSpec({
 
     // create a fake bukkit environment
     val mockedPlugin = MockBukkit.createMockPlugin()
+    val player = MockBukkit.getMock().addPlayer()
 
     context("PocketInventory") {
 
@@ -53,8 +54,6 @@ class PocketInventoryTest : ShouldSpec({
                 pocketInventory.getItem(pos) shouldBeSameInstanceAs stack
             }
         }
-
-        val player = MockBukkit.getMock().addPlayer()
 
         context("open") {
             should("show the inventory and correctly set all items") {
