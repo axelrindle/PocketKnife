@@ -7,6 +7,7 @@ object TestInit : ProjectListener {
 
     override suspend fun beforeProject() {
         MockBukkit.mock()
+        MockBukkit.getMock().setPlayers(10)
     }
 
     override suspend fun afterProject() {
