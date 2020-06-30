@@ -8,3 +8,4 @@ commands:
   pocketknife:
     usage: /pocketknife
     description: Access the plugin.
+    permission: pocketknife.access
