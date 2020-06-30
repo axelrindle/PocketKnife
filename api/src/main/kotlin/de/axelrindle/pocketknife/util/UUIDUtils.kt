@@ -1,9 +1,6 @@
 package de.axelrindle.pocketknife.util
 
-import de.axelrindle.pocketknife.tasks.RetrieveUUIDTask
 import java.util.*
-import java.util.concurrent.CompletableFuture
-import java.util.function.Consumer
 
 /**
  * Utilities for working with [UUID]s.
@@ -37,37 +34,5 @@ object UUIDUtils {
             insert(18, "-")
             insert(23, "-")
         }
-    }
-
-    /**
-     * Lookup the uuid for the given username.
-     *
-     * @param name The username.
-     * @param callback A callback which consumes the fetched [UUID], or null on error.
-     */
-    @Deprecated(
-            "The custom task has been replaced by a call to Bukkit#getOfflinePlayer. " +
-                    "Use that instead or the async lookup method.",
-            ReplaceWith("Bukkit.getOfflinePlayer(name).uniqueId", "org.bukkit.Bukkit")
-    )
-    fun lookup(name: String, callback: Consumer<in UUID?>) {
-        val runnable = RetrieveUUIDTask(name)
-        val future = CompletableFuture.supplyAsync(runnable::run)
-        future.thenAccept(callback)
-    }
-
-    /**
-     * Synchronous version of [lookup].
-     *
-     * @param name The username.
-     * @return The fetched [UUID] or null on error.
-     */
-    @Deprecated(
-            "The custom task has been replaced by a call to Bukkit#getOfflinePlayer. " +
-                    "Use that instead or the async lookup method.",
-            ReplaceWith("Bukkit.getOfflinePlayer(name).uniqueId", "org.bukkit.Bukkit")
-    )
-    fun lookupSync(name: String): UUID? {
-        return RetrieveUUIDTask(name).run()
     }
 }
