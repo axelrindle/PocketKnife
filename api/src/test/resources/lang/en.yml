@@ -1,2 +1,3 @@
 message1: "Hello"
 message2: "World"
+message3: "Hello %s"
