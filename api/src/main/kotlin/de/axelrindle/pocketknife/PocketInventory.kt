@@ -60,6 +60,16 @@ class PocketInventory(
     }
 
     /**
+     * Retrieves the [ItemStack] from the given inventory position.
+     *
+     * @param position The position of the item in the inventory.
+     * @return An [ItemStack] or `null` if not found.
+     */
+    fun getItem(position: Int): ItemStack? {
+        return itemList[position]
+    }
+
+    /**
      * Removes an item.
      *
      * @param position The index of the item to remove.
