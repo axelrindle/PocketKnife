@@ -1,0 +1,13 @@
+# # # # # # # # # # # # # # # # # # # # #
+#                                       #
+#      Sample Plugin Configuration      #
+#                                       #
+# # # # # # # # # # # # # # # # # # # # #
+
+MyString: "Hello World"
+
+MyBoolean: true
+
+MySection:
+  AnotherBoolean: false
+  MyInteger: 420

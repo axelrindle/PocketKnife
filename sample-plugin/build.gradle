@@ -1,0 +1,13 @@
+archivesBaseName = "PocketKnifeTestPlugin"
+
+dependencies {
+    // PocketKnife
+    compileOnly project(':api')
+
+    // Kotlin stdlib
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compileOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    // Spigot/Bukkit API
+    compileOnly "org.spigotmc:spigot-api:$spigot_version"
+}

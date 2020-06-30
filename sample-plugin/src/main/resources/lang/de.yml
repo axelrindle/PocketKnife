@@ -1,0 +1,16 @@
+Commands:
+  Reload: "Lädt alle Konfigurationsdateien neu."
+  Gui: "Zeigt ein tolles Inventar an."
+
+Messages:
+  Reload: "Alle Konfigurationdateien neu geladen."
+  You: "Das bist du"
+
+Titles:
+  Help: "Kommandohilfe"
+  Gui: "Ein tolles Inventar"
+
+Errors:
+  NoMatch: "Nichts passendes zu '%s' gefunden!"
+  NoPermission: "Du hast keine Berechtigung, um diesen Befehl auszuführen!"
+  PlayerRequired: "Dieser Befehl kann nur von einem Spieler ausgeführt werden!"

@@ -1,0 +1,16 @@
+Commands:
+  Reload: "Reloads all configuration files."
+  Gui: "Shows a fancy GUI."
+
+Messages:
+  Reload: "All configuration files have been reloaded."
+  You: "That's you"
+
+Titles:
+  Help: "Command Help"
+  Gui: "A Fancy GUI"
+
+Errors:
+  NoMatch: "Nothing matched '%s'!"
+  NoPermission: "You don't have permission to execute this command!"
+  PlayerRequired: "A player is required to execute this command!"

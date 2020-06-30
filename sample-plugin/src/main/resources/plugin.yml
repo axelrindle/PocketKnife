@@ -1,0 +1,10 @@
+name: PocketKnife-TestPlugin
+version: @VERSION@
+main: de.axelrindle.pocketknife.testplugin.PocketKnifeTestPlugin
+author: "Axel Rindle"
+api-version: 1.15
+depend: [PocketKnife]
+commands:
+  pocketknife:
+    usage: /pocketknife
+    description: Access the plugin.
