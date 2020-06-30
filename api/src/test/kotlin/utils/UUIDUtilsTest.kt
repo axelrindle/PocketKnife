@@ -10,4 +10,6 @@ class UUIDUtilsTest : ShouldSpec({
     theUuidString shouldBe "2dcd2efe-e0ef-40e9-81c5-345de1b8ff65"
     UUIDUtils.isValid(theUuidString) shouldBe true
 
+    UUIDUtils.isValid("this is not an uuid") shouldBe false
+
 })
