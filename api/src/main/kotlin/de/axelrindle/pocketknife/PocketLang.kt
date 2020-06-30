@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin
  *
  * @since 1.0.0
  */
-@Suppress("MemberVisibilityCanBePrivate", "unused")
 class PocketLang(
         private val plugin: JavaPlugin,
         private val pocketConfig: PocketConfig

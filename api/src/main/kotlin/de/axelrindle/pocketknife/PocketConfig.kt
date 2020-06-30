@@ -109,7 +109,6 @@ class PocketConfig(
      *
      * @throws IllegalArgumentException If the given config was not found.
      */
-    @Suppress("MemberVisibilityCanBePrivate")
     fun reload(name: String) {
         // make sure the given config exists
         if (!configInstances.containsKey(name))

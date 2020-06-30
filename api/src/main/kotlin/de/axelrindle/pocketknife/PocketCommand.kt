@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin
  *
  * @since 1.0.0
  */
-@Suppress("unused", "MemberVisibilityCanBePrivate", "CanBeParameter")
 abstract class PocketCommand : CommandExecutor, TabCompleter {
 
     // # # # # # # # # # # # #
@@ -262,6 +261,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      * @return true if they can use it, otherwise false
      * @see PluginCommand.testPermissionSilent
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     fun testPermissionSilent(target: CommandSender): Boolean {
         if (getPermission().isNullOrBlank()) {
             return true

@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin
  *
  * @since 1.0.0
  */
-@Suppress("unused", "MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate")
 class PocketInventory(
         plugin: JavaPlugin,
         val name: String,

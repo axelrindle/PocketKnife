@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack
 /**
  * Utility methods for use with the [PocketInventory] class.
  */
-@Suppress("unused")
 object InventoryUtils {
 
     private val INDEX_MATRIX = Array(9) { Array(6) { it } }
