@@ -29,6 +29,7 @@ jobs:
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
       run: java -jar ./codacy-coverage-reporter-assembly.jar report -l Kotlin -r api/build/reports/jacoco/test/jacocoTestReport.xml
     - uses: actions/upload-artifact@v1
+      if: always()
       with:
         name: Test Reports
         path: api/build/reports
