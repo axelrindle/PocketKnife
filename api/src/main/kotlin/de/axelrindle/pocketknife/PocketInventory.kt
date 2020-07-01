@@ -26,13 +26,19 @@ class PocketInventory(
         val size: Int
 ) {
 
+    companion object {
+        const val MIN_INVENTORY_SIZE = 1
+        const val MAX_INVENTORY_SIZE = 6
+        const val INVENTORY_ROW_SIZE = 9
+    }
+
     private val listener = ClickListener(this)
     private val itemList: HashMap<Int, ItemStack> = HashMap()
     private val clickListeners: HashMap<Int, (event: InventoryClickEvent) -> Unit> = HashMap()
 
     init {
         // minimum and maximum size
-        if (size < 1 || size > 6)
+        if (size < MIN_INVENTORY_SIZE || size > MAX_INVENTORY_SIZE)
             throw IllegalArgumentException("size must be between 1 and 6, got '$size'!")
 
         // register event listener
@@ -50,7 +56,7 @@ class PocketInventory(
      */
     fun setItem(position: Int, stack: ItemStack, handler: ((event: InventoryClickEvent) -> Unit)? = null) {
         // validate position
-        val max = size * 9 - 1
+        val max = size * INVENTORY_ROW_SIZE - 1
         if (position < 0 || position > max)
             throw IllegalArgumentException("position must be between 0 and $max, got '$position'!")
 
@@ -87,7 +93,7 @@ class PocketInventory(
      *                 created [Inventory] instance before the [Player] sees it.
      */
     fun open(player: Player, consumer: ((inv: Inventory) -> Unit)? = null) {
-        val inv = Bukkit.createInventory(player, size * 9, name)
+        val inv = Bukkit.createInventory(player, size * INVENTORY_ROW_SIZE, name)
         itemList.forEach(inv::setItem)
         consumer?.invoke(inv)
         player.openInventory(inv)

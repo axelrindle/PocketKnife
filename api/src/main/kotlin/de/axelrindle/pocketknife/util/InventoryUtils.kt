@@ -1,6 +1,9 @@
 package de.axelrindle.pocketknife.util
 
 import de.axelrindle.pocketknife.PocketInventory
+import de.axelrindle.pocketknife.PocketInventory.Companion.INVENTORY_ROW_SIZE
+import de.axelrindle.pocketknife.PocketInventory.Companion.MAX_INVENTORY_SIZE
+import de.axelrindle.pocketknife.PocketInventory.Companion.MIN_INVENTORY_SIZE
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
@@ -9,12 +12,12 @@ import org.bukkit.inventory.ItemStack
  */
 object InventoryUtils {
 
-    private val INDEX_MATRIX = Array(9) { Array(6) { it } }
+    private val INDEX_MATRIX = Array(INVENTORY_ROW_SIZE) { Array(MAX_INVENTORY_SIZE) { it } }
 
     init {
         var i = 0
-        for (y in 0..5)
-            for (x in 0..8)
+        for (y in 0 until MAX_INVENTORY_SIZE)
+            for (x in 0 until INVENTORY_ROW_SIZE)
                 INDEX_MATRIX[x][y] = i++
     }
 
@@ -35,11 +38,11 @@ object InventoryUtils {
      */
     fun getIndex(column: Int, row: Int): Int {
         // validate column index
-        if (column < 1 || column > 9)
+        if (column < MIN_INVENTORY_SIZE || column > INVENTORY_ROW_SIZE)
             throw IllegalArgumentException("column index must be between 1 and 9, got '$column'!")
 
         // validate row index
-        if (row < 1 || row > 6)
+        if (row < MIN_INVENTORY_SIZE || row > MAX_INVENTORY_SIZE)
             throw IllegalArgumentException("row index must be between 1 and 6, got '$row'!")
 
         return INDEX_MATRIX[column-1][row-1]

@@ -7,6 +7,11 @@ import java.util.*
  */
 object UUIDUtils {
 
+    private const val GROUP_FIRST = 8
+    private const val GROUP_SECOND = 13
+    private const val GROUP_THIRD = 18
+    private const val GROUP_FOURTH = 23
+
     /**
      * @return Whether the given string is a valid [UUID].
      * @see UUID.fromString
@@ -29,10 +34,10 @@ object UUIDUtils {
     fun trimmedToFull(uuid: String): String {
         return buildString {
             append(uuid)
-            insert(8, "-")
-            insert(13, "-")
-            insert(18, "-")
-            insert(23, "-")
+            insert(GROUP_FIRST, "-")
+            insert(GROUP_SECOND, "-")
+            insert(GROUP_THIRD, "-")
+            insert(GROUP_FOURTH, "-")
         }
     }
 }

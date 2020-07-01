@@ -8,6 +8,13 @@ import org.bukkit.Location
  */
 object LocationUtils {
 
+    private const val INDEX_WORLD = 0
+    private const val INDEX_COORD_X = 1
+    private const val INDEX_COORD_Y = 2
+    private const val INDEX_COORD_Z = 3
+    private const val INDEX_PITCH = 4
+    private const val INDEX_YAW = 5
+
     private const val SEPARATOR = ";"
 
     /**
@@ -34,9 +41,9 @@ object LocationUtils {
      */
     fun deserializeLocation(s: String): Location {
         val list = s.split(SEPARATOR)
-        val world = if (list[0] == "null") null else Bukkit.getWorld(list[0])
+        val world = if (list[INDEX_WORLD] == "null") null else Bukkit.getWorld(list[0])
         return Location(world,
-            list[1].toDouble(), list[2].toDouble(), list[3].toDouble(),
-            list[4].toFloat(), list[5].toFloat())
+            list[INDEX_COORD_X].toDouble(), list[INDEX_COORD_Y].toDouble(), list[INDEX_COORD_Z].toDouble(),
+            list[INDEX_PITCH].toFloat(), list[INDEX_YAW].toFloat())
     }
 }
