@@ -27,8 +27,13 @@ class PocketInventory(
 ) {
 
     companion object {
+        /** An [Inventory] must contain at least one row. */
         const val MIN_INVENTORY_SIZE = 1
+
+        /** An [Inventory] must contain a maximum of 6 rows. */
         const val MAX_INVENTORY_SIZE = 6
+
+        /** One [Inventory] row consists of 9 slots. */
         const val INVENTORY_ROW_SIZE = 9
     }
 
