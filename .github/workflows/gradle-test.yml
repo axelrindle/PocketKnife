@@ -24,10 +24,10 @@ jobs:
       run: ./gradlew build -x test
     - name: Run tests
       run: ./gradlew test
-    - name: Generate coverage report
-      env:
-        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
-      run: java -jar ./codacy-coverage-reporter-assembly.jar report -l Kotlin -r api/build/reports/jacoco/test/jacocoTestReport.xml
+    - name: Run codacy-coverage-reporter
+      uses: codacy/codacy-coverage-reporter-action@master
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
     - uses: actions/upload-artifact@v1
       if: always()
       with:
