@@ -39,6 +39,9 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     // Custom Implementation
     //
 
+    /**
+     * @see CommandExecutor.onCommand
+     */
     final override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>):
             Boolean {
         // make sure the sender has the required permission
@@ -146,6 +149,19 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
         return true
     }
 
+    /**
+     * Requests a list of possible completions for a command argument.
+     *
+     * @param sender Source of the command.  For players tab-completing a
+     *               command inside of a command block, this will be the player, not
+     *               the command block.
+     * @param command Command which was executed
+     * @param args The arguments passed to the command, including final
+     *             partial argument to be completed and command label.
+     *
+     * @return A list of possible completions for the final argument, or null
+     *         to default to the command executor.
+     */
     open fun tabComplete(sender: CommandSender, command: Command, args: Array<out String>):
             MutableList<String> {
         return ArrayList()
