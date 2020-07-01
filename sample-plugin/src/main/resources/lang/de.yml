@@ -1,6 +1,7 @@
 Commands:
   Reload: "Lädt alle Konfigurationsdateien neu."
   Gui: "Zeigt ein tolles Inventar an."
+  Notes: "Verwalte Notizen."
 
 Messages:
   Reload: "Alle Konfigurationdateien neu geladen."

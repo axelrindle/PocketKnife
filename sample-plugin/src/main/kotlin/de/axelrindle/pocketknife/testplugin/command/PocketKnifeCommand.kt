@@ -11,7 +11,8 @@ class PocketKnifeCommand(
 
     override val subCommands = arrayListOf(
             ReloadCommand(plugin),
-            GuiCommand(plugin)
+            GuiCommand(plugin),
+            NotesCommand(plugin)
     )
 
     override fun getName(): String {

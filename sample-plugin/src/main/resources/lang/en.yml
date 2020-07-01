@@ -1,6 +1,7 @@
 Commands:
   Reload: "Reloads all configuration files."
   Gui: "Shows a fancy GUI."
+  Notes: "Manage in-game notes."
 
 Messages:
   Reload: "All configuration files have been reloaded."
