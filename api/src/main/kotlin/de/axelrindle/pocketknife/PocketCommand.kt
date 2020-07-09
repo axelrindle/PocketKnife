@@ -174,6 +174,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      */
     open fun sendHelp(sender: CommandSender) {
         sender.sendMessage("${getUsage()} - ${getDescription()}")
+        subCommands.forEach { it.sendHelp(sender) }
     }
 
     /**
