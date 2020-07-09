@@ -39,4 +39,14 @@ subprojects {
     jar {
         from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     }
+
+    task copyToServer(type: Copy) {
+        def dir = System.getenv("PLUGINS_DIR")
+        if (dir == null) return true
+
+        from("$buildDir/libs") {
+            include "*-${rootProject.version}.jar" // TODO: Only include archivesBaseName
+        }
+        into dir
+    }
 }
