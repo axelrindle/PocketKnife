@@ -1,38 +1,38 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.3.70"
+    id 'org.jetbrains.kotlin.jvm' version '1.3.70'
 }
 
 allprojects {
-    version = "2.0.0"
-    group = "de.axelrindle"
+    version = '2.0.0'
+    group = 'de.axelrindle'
 
     repositories {
         mavenCentral()
-        maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
         maven { url 'https://jitpack.io' }
     }
 
     ext {
-        kotlin_version = "1.3.70"
-        spigot_version = "1.15.2-R0.1-SNAPSHOT"
-        kotest_version = "4.1.0"
+        kotlin_version = '1.3.70'
+        spigot_version = '1.15.2-R0.1-SNAPSHOT'
+        kotest_version = '4.1.0'
     }
 }
 
 subprojects {
-    apply plugin: "org.jetbrains.kotlin.jvm"
+    apply plugin: 'org.jetbrains.kotlin.jvm'
 
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = '1.8'
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = '1.8'
     }
 
     processResources {
         filter { line ->
-            line.replaceAll("@VERSION@", rootProject.version.toString())
+            line.replaceAll('@VERSION@', rootProject.version.toString())
         }
     }
 
@@ -41,7 +41,7 @@ subprojects {
     }
 
     task copyToServer(type: Copy) {
-        def dir = System.getenv("PLUGINS_DIR")
+        def dir = System.getenv('PLUGINS_DIR')
         if (dir == null) return true
 
         from("$buildDir/libs") {
