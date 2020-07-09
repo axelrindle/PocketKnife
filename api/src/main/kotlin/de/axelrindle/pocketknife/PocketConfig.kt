@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets
  * @see YamlConfiguration
  * @since 1.0.0
  */
-@Suppress("unused")
 class PocketConfig(
         private val plugin: JavaPlugin
 ) {
@@ -23,27 +22,25 @@ class PocketConfig(
     private val configInstances: HashMap<String, YamlConfiguration> = HashMap()
 
     private fun createDefaultFile(name: String, file: File, defaults: InputStream?) {
-        if (!file.exists()) {
-            plugin.logger.info("Creating new config file '$name' at ${file.absolutePath}")
-            if (plugin.dataFolder.exists() || plugin.dataFolder.mkdirs()) {
+        if (file.exists()) return
 
-                // check whether to create parent directories
-                if (plugin.dataFolder.absolutePath != file.parentFile?.absolutePath)
-                    file.parentFile.mkdirs()
+        plugin.logger.info("Creating new config file '$name' at ${file.absolutePath}")
+        if (plugin.dataFolder.exists() || plugin.dataFolder.mkdirs()) {
 
-                if (file.createNewFile()) {
-                    if (defaults != null) {
-                        val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
-                        val writer = FileWriter(file)
-                        IOUtils.write(string, writer)
-                        writer.close()
-                    }
-                } else {
-                    plugin.logger.severe("Failed to create a config file for '$name'!")
+            // check whether to create parent directories
+            if (plugin.dataFolder.absolutePath != file.parentFile?.absolutePath)
+                file.parentFile.mkdirs()
+
+            if (file.createNewFile()) {
+                if (defaults != null) {
+                    val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
+                    FileWriter(file).use { IOUtils.write(string, it) }
                 }
             } else {
-                plugin.logger.severe("Failed to create the directory '${plugin.dataFolder.absolutePath}'")
+                plugin.logger.severe("Failed to create a config file for '$name'!")
             }
+        } else {
+            plugin.logger.severe("Failed to create the directory '${plugin.dataFolder.absolutePath}'!")
         }
     }
 
@@ -68,8 +65,8 @@ class PocketConfig(
         // create a new config instance
         val config = YamlConfiguration()
         config.options().apply {
-            this.indent(2)
-            this.copyDefaults(true)
+            indent(2)
+            copyDefaults(true)
         }
 
         // create default file if given
@@ -77,9 +74,7 @@ class PocketConfig(
 
         // apply defaults to the config instance
         if (defaults != null) {
-            val reader = InputStreamReader(defaults)
-            config.addDefaults(YamlConfiguration.loadConfiguration(reader))
-            reader.close()
+            InputStreamReader(defaults).use { config.addDefaults(YamlConfiguration.loadConfiguration(it)) }
             defaults.close()
         }
 
