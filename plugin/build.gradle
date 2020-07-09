@@ -2,7 +2,7 @@ archivesBaseName = "PocketKnife"
 
 dependencies {
     // PocketKnife
-    compile project(':api')
+    compile project(":api")
 
     // Kotlin stdlib
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

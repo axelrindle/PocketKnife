@@ -1,9 +1,8 @@
 plugins {
-    id 'maven'
-    id 'jacoco'
-    id 'maven-publish'
+    id "maven"
+    id "jacoco"
+    id "maven-publish"
 }
-
 
 archivesBaseName = "PocketKnifeAPI"
 
@@ -33,20 +32,20 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:$spigot_version"
 
     // Dependencies
-    compile group: 'org.jetbrains', name: 'annotations', version: '16.0.3'
-    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: "org.jetbrains", name: "annotations", version: "16.0.3"
+    compile group: "commons-io", name: "commons-io", version: "2.6"
 
     // Tests
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:4.12"
     testCompile "io.kotest:kotest-runner-junit5-jvm:$kotest_version"
     testCompile "io.kotest:kotest-assertions-core-jvm:$kotest_version"
     testCompile "io.kotest:kotest-property-jvm:$kotest_version"
-    testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
-    testCompile 'com.github.seeseemelk:MockBukkit:v1.15-SNAPSHOT'
+    testCompile group: "org.slf4j", name: "slf4j-simple", version: "1.7.25"
+    testCompile "com.github.seeseemelk:MockBukkit:v1.15-SNAPSHOT"
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier.set('sources')
+    archiveClassifier.set("sources")
     from sourceSets.main.allSource
 }
 
