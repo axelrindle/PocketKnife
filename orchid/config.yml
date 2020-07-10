@@ -1,0 +1,58 @@
+site:
+  about:
+    siteName: PocketKnife API
+    siteDescription: Utilities and reuseable components to simplify the process of creating a Bukkit/Spigot plugin.
+    siteCopyright: Axel Rindle
+  theme: "Editorial"
+
+theme:
+  primaryColor: "#ff7f2a"
+  social:
+    email: mail@axelrindle.de
+    github: axelrindle/PocketKnife
+  metaComponents:
+    - type: "orchidSearch"
+    - type: "prism"
+      languages:
+        - "kotlin"
+  menu:
+    - type: page
+      itemId: "Changelog"
+    - type: "separator"
+      title: "Wiki"
+    - type: "wiki"
+    - type: "separator"
+      title: "API Documentation"
+    - type: "sourcedocPages"
+      moduleType: "kotlindoc"
+      node: "classes"
+      asSubmenu: true
+      submenuTitle: "Classes"
+    - type: "sourcedocPages"
+      moduleType: "kotlindoc"
+      node: "packages"
+      asSubmenu: true
+      submenuTitle: "Packages"
+
+kotlindoc:
+  sourceDirs:
+    - "../api/src/main/kotlin"
+  sourcePages:
+    menu:
+      - type: "sourcedocPageLinks"
+        moduleType: "kotlindoc"
+        itemTitleType: "SIGNATURE"
+        includeItems: true
+
+indices:
+  includeFrom:
+    - 'wiki'
+    - 'pages'
+    - 'kotlindoc'
+
+services:
+  publications:
+    stages:
+      - type: "githubPages"
+        repo: "PocketKnife"
+        username: "axelrindle"
