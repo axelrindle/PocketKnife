@@ -1,3 +1,4 @@
 name: PocketKnife
 main: de.axelrindle.pocketknife.PocketKnifePlugin
 version: @VERSION@
+api-version: 1.14
