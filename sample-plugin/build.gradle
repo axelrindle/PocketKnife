@@ -1,3 +1,7 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
 archivesBaseName = "PocketKnifeTestPlugin"
 
 dependencies {
@@ -12,6 +16,16 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:$spigot_version"
 }
 
-assemble {
+shadowJar {
+    archiveClassifier.set('')
+
     finalizedBy copyToServer
 }
+
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+    prefix = "samplepluginshadow" // Default value is "shadow"
+}
+
+tasks.shadowJar.dependsOn tasks.relocateShadowJar

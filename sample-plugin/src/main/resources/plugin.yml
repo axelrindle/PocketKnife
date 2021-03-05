@@ -1,9 +1,8 @@
 name: PocketKnife-TestPlugin
 version: @VERSION@
-main: de.axelrindle.pocketknife.testplugin.PocketKnifeTestPlugin
+main: de.axelrindle.testplugin.PocketKnifeTestPlugin
 author: "Axel Rindle"
 api-version: 1.13
-depend: [PocketKnife]
 commands:
   pocketknife:
     usage: /pocketknife

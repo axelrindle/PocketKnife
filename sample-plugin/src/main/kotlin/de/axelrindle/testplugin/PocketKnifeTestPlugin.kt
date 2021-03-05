@@ -1,9 +1,9 @@
-package de.axelrindle.pocketknife.testplugin
+package de.axelrindle.testplugin
 
 import de.axelrindle.pocketknife.PocketCommand
 import de.axelrindle.pocketknife.PocketConfig
 import de.axelrindle.pocketknife.PocketLang
-import de.axelrindle.pocketknife.testplugin.command.PocketKnifeCommand
+import de.axelrindle.testplugin.command.PocketKnifeCommand
 import org.bukkit.plugin.java.JavaPlugin
 
 class PocketKnifeTestPlugin : JavaPlugin() {

@@ -1,7 +1,7 @@
-package de.axelrindle.pocketknife.testplugin.command
+package de.axelrindle.testplugin.command
 
 import de.axelrindle.pocketknife.PocketCommand
-import de.axelrindle.pocketknife.testplugin.PocketKnifeTestPlugin
+import de.axelrindle.testplugin.PocketKnifeTestPlugin
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import java.util.stream.Collectors
