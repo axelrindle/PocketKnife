@@ -4,7 +4,7 @@ plugins {
     id "maven-publish"
 }
 
-archivesBaseName = "PocketKnifeAPI"
+archivesBaseName = "PocketKnife"
 
 test {
     useJUnitPlatform()
