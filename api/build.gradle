@@ -32,16 +32,16 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:$spigot_version"
 
     // Dependencies
-    compile group: "org.jetbrains", name: "annotations", version: "16.0.3"
-    compile group: "commons-io", name: "commons-io", version: "2.6"
+    implementation group: "org.jetbrains", name: "annotations", version: "16.0.3"
+    implementation group: "commons-io", name: "commons-io", version: "2.6"
 
     // Tests
-    testCompile "junit:junit:4.12"
-    testCompile "io.kotest:kotest-runner-junit5-jvm:$kotest_version"
-    testCompile "io.kotest:kotest-assertions-core-jvm:$kotest_version"
-    testCompile "io.kotest:kotest-property-jvm:$kotest_version"
-    testCompile group: "org.slf4j", name: "slf4j-simple", version: "1.7.25"
-    testCompile "com.github.seeseemelk:MockBukkit:v1.15-SNAPSHOT"
+    testImplementation "junit:junit:4.12"
+    testImplementation "io.kotest:kotest-runner-junit5-jvm:$kotest_version"
+    testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
+    testImplementation "io.kotest:kotest-property-jvm:$kotest_version"
+    testImplementation group: "org.slf4j", name: "slf4j-simple", version: "1.7.25"
+    testImplementation 'com.github.seeseemelk:MockBukkit-v1.16:0.25.0'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
