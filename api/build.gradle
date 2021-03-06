@@ -3,6 +3,7 @@ plugins {
     id "maven-publish"
 }
 
+group = "com.github.axelrindle"
 archivesBaseName = "PocketKnife"
 
 test {
