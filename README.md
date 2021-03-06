@@ -6,7 +6,7 @@
   <a href="https://github.com/axelrindle/PocketKnife">
     <img src="https://github.com/axelrindle/PocketKnife/workflows/Test/badge.svg" alt="Test Status">
   </a>
-  <a href="https://www.codacy.com/app/axel.rindle/PocketKnife?utm_source=github.com&utm_medium=referral&utm_content=axelrindle/PocketKnife&utm_campaign=Badge_Grade">
+  <a href="https://www.codacy.com/app/axelrindle/PocketKnife?utm_source=github.com&utm_medium=referral&utm_content=axelrindle/PocketKnife&utm_campaign=Badge_Grade">
     <img src="https://api.codacy.com/project/badge/Grade/44f2287392d3482c86bf467223f2e88a" alt="Codacy Badge">
   </a>
   <a href="https://www.codacy.com/app/axelrindle/PocketKnife?utm_source=github.com&utm_medium=referral&utm_content=axelrindle/PocketKnife&utm_campaign=Badge_Coverage">
