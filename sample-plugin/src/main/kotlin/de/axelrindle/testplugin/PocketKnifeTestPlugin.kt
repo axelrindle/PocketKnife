@@ -17,7 +17,7 @@ class PocketKnifeTestPlugin : JavaPlugin() {
         // load configs
         config.register("config")
         localization.addLanguages("de", "en")
-        localization.init("de")
+        localization.init()
 
         // commands
         PocketCommand.register(this, PocketKnifeCommand(this))

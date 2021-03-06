@@ -39,26 +39,33 @@ class PocketLang(
     fun addLanguages(vararg list: String) = list.forEach(this::addLanguage)
 
     /**
+     * @param overrideDefault DEPRECATED! An optional value which overrides the default language, which is
+     *                        set to "en" by default.
+     */
+    @Deprecated(
+            message = "The overrideDefault is not used anymore.",
+            replaceWith = ReplaceWith(
+                    "init()"
+            )
+    )
+    fun init(overrideDefault: String? = null) {
+        // only kept for compatibility reasons
+        plugin.logger.warning("fun init(overrideDefault: String? = null) is deprecated! Use init() instead.")
+    }
+
+    /**
      * Does config and message registration. Call this AFTER you've added your
      * supported languages.
-     *
-     * @param overrideDefault An optional value which overrides the default language, which is
-     *                        set to "en" by default.
      *
      * @see PocketConfig
      * @throws IllegalStateException If no languages were registered.
      */
-    fun init(overrideDefault: String? = null) {
+    fun init() {
         if (supportedLanguages.size == 0)
             throw IllegalStateException("No languages were registered!")
 
         // register own config file
         pocketConfig.register(configName, javaClass.getResourceAsStream("/localization.yml"))
-        if (overrideDefault != null)
-            pocketConfig.edit(configName) {
-                it.set("UseLanguage", overrideDefault)
-                it.set("DefaultLanguage", overrideDefault)
-            }
 
         // register appropriate config files
         supportedLanguages.forEach {
