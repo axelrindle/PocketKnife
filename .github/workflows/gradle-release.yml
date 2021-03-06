@@ -21,11 +21,6 @@ jobs:
       run: ./gradlew api:build
     - name: Run tests
       run: ./gradlew api:test
-    - name: Publish package
-      env:
-        USERNAME: axelrindle
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: ./gradlew api:publish
     - name: Deploy documentation
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
