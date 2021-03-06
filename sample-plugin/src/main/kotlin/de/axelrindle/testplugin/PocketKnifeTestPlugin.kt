@@ -21,6 +21,8 @@ class PocketKnifeTestPlugin : JavaPlugin() {
 
         // commands
         PocketCommand.register(this, PocketKnifeCommand(this))
+
+        logger.info("Loaded v${description.version}")
     }
 
     override fun onDisable() {
