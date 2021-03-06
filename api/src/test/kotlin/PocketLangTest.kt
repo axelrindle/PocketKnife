@@ -37,7 +37,13 @@ class PocketLangTest : ShouldSpec({
             }
             exception.message should endWith("is already registered!")
 
-            pocketLang.init("de")
+            pocketLang.init()
+        }
+
+        // lets pretend we edit the default language
+        pocketConfig.edit(PocketLang.CONFIG_NAME) { conf ->
+            conf.set("DefaultLanguage", "de")
+            conf.set("UseLanguage", "de")
         }
 
         should("correctly override default language") {
