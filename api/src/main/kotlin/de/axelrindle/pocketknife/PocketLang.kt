@@ -67,17 +67,21 @@ class PocketLang(
         if (supportedLanguages.size == 0)
             throw IllegalStateException("No languages were registered!")
 
-        // load any additional found lang files
+        // create the lang directory if it does not exist
         val langDir = File(plugin.dataFolder, "lang").toPath()
+        if (! Files.isDirectory(langDir)) {
+            Files.createDirectory(langDir)
+        }
+
+        // load any additional found lang files
         var loadedAdditional = false
-        Files
-                .list(langDir)
-                .map { el -> FilenameUtils.getBaseName(el.fileName.toString()) }
-                .filter { el -> ! supportedLanguages.contains(el) }
-                .forEach { el ->
-                    supportedLanguages.add(el)
-                    loadedAdditional = true
-                }
+        Files.list(langDir)
+            .map { el -> FilenameUtils.getBaseName(el.fileName.toString()) }
+            .filter { el -> ! supportedLanguages.contains(el) }
+            .forEach { el ->
+                supportedLanguages.add(el)
+                loadedAdditional = true
+            }
         if (loadedAdditional) {
             plugin.logger.info("Loaded additional languages")
         }
