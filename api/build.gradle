@@ -1,5 +1,4 @@
 plugins {
-    id "maven"
     id "jacoco"
     id "maven-publish"
 }
