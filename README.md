@@ -21,7 +21,7 @@
 
 # PocketKnife
 
-> :recycle: Utilities and reuseable components to simplify the process of creating a Bukkit/Spigot plugin.
+> :recycle: Utilities and reusable components to simplify the process of creating a Bukkit/Spigot plugin.
 
 ## Get Started
 
@@ -29,23 +29,43 @@
 
 If not already done, add the `JitPack` repository and the dependency:
 
-Repository:
+#### Repository
 
 ```gradle
 maven { url 'https://jitpack.io' }
 ```
 
-Dependency:
+#### Dependency
 
 ```gradle
-compileOnly 'com.github.axelrindle:PocketKnife:LATEST_VERSION'
+implementation 'com.github.axelrindle:PocketKnife:LATEST_VERSION'
 ```
 
-**Please don't include the library in your final plugin jar!**
+#### Package relocation
 
-#### Plugin
+To avoid classpath conflicts with other plugins using the same dependencies, dependencies should be relocated to a unique package. More information [can be found here](https://imperceptiblethoughts.com/shadow/configuration/relocation/).
 
-Download the [latest release jar](https://github.com/axelrindle/PocketKnife/releases/latest) and put it into your `plugins` folder.
+The following Gradle configuration relocates all dependencies using the `shadow` plugin, that will be included in the jar file, to a new location:
+
+```groovy
+plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+}
+
+shadowJar {
+    archiveClassifier.set('') // remove the 'all' suffix
+}
+
+import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
+task relocateShadowJar(type: ConfigureShadowRelocation) {
+    target = tasks.shadowJar
+    prefix = "mypluginshadow" // Default value is "shadow"
+}
+
+tasks.shadowJar.dependsOn tasks.relocateShadowJar
+```
+
+Afterwards a jar file can be built by running the Gradle task `shadowJar`.
 
 ### Usage
 
