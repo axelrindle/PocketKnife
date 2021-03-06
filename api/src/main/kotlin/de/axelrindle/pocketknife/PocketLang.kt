@@ -70,7 +70,7 @@ class PocketLang(
         // register appropriate config files
         supportedLanguages.forEach {
             val path = "lang/$it"
-            pocketConfig.register(path, plugin.getResource("$path.yml")!!)
+            pocketConfig.register(path, plugin.getResource("$path.yml"))
         }
     }
 
