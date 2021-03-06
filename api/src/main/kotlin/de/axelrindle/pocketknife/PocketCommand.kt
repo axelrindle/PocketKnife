@@ -44,9 +44,6 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      */
     final override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>):
             Boolean {
-        // make sure the sender has the required permission
-        if (!testPermission(sender)) return true
-
         // check for sub-commands
         if (hasSubCommands() && args.isNotEmpty()) {
             val subName = args[0]
