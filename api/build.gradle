@@ -38,11 +38,34 @@ dependencies {
     testImplementation 'com.github.seeseemelk:MockBukkit-v1.16:0.31.0'
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier.set("sources")
-    from sourceSets.main.allSource
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
-artifacts {
-    archives sourcesJar
+publishing {
+    publications {
+        mavenKotlin(MavenPublication) {
+            artifactId = 'PocketKnife'
+            from components.java
+            pom {
+                name = 'PocketKnife'
+                description = 'Utilities and reuseable components to simplify the process of creating a Bukkit/Spigot plugin.'
+                url = 'https://github.com/axelrindle/PocketKnife'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://github.com/axelrindle/PocketKnife/blob/main/LICENSE'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'axelrindle'
+                        name = 'Axel Rindle'
+                        email = 'mail@axelrindle.de'
+                    }
+                }
+            }
+        }
+    }
 }
