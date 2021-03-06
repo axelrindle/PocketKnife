@@ -2,13 +2,12 @@ name: Publish
 
 on:
   release:
-    types: [published]
-    branches:
-      - main
+    types: [ created, edited, published ]
+    branches: [ main ]
 
 jobs:
   publish:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
