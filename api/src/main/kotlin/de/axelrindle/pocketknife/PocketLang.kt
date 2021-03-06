@@ -1,7 +1,10 @@
 package de.axelrindle.pocketknife
 
+import org.apache.commons.io.FilenameUtils
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
+import java.nio.file.Files
 
 /**
  * A helper class which assists in localizing your plugin.
@@ -63,6 +66,21 @@ class PocketLang(
     fun init() {
         if (supportedLanguages.size == 0)
             throw IllegalStateException("No languages were registered!")
+
+        // load any additional found lang files
+        val langDir = File(plugin.dataFolder, "lang").toPath()
+        var loadedAdditional = false
+        Files
+                .list(langDir)
+                .map { el -> FilenameUtils.getBaseName(el.fileName.toString()) }
+                .filter { el -> ! supportedLanguages.contains(el) }
+                .forEach { el ->
+                    supportedLanguages.add(el)
+                    loadedAdditional = true
+                }
+        if (loadedAdditional) {
+            plugin.logger.info("Loaded additional languages")
+        }
 
         // register own config file
         pocketConfig.register(configName, javaClass.getResourceAsStream("/localization.yml"))
