@@ -20,7 +20,3 @@ jobs:
       run: ./gradlew api:build
     - name: Run tests
       run: ./gradlew api:test
-    - name: Deploy documentation
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: ./gradlew orchidDeploy
