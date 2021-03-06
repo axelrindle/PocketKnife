@@ -5,7 +5,6 @@ import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import java.io.File
-import java.lang.IllegalArgumentException
 
 class PocketConfigTest : ShouldSpec({
 
@@ -62,6 +61,21 @@ class PocketConfigTest : ShouldSpec({
                 pocketConfig.reload("iDoNotExist")
             }
             exception.message shouldBe "No config 'iDoNotExist' is registered!"
+        }
+
+        should("load changes for a known file") {
+            val file = File(mockedPlugin.dataFolder, "testConfig.yml")
+            file.appendText("Another: value\n")
+
+            pocketConfig.reloadAll()
+            pocketConfig.access("testConfig")?.get("Another") shouldBe "value"
+
+            val contents = file.readText()
+            contents shouldBe "Boolean: false\n" +
+                    "String: Hello\n" +
+                    "Int: 345\n" +
+                    "Float: 2.5\n" +
+                    "Another: value\n"
         }
     }
 
