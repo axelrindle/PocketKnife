@@ -57,6 +57,7 @@ class PocketLang(
     fun init(overrideDefault: String? = null) {
         // only kept for compatibility reasons
         plugin.logger.warning("fun init(overrideDefault: String? = null) is deprecated! Use init() instead.")
+        init()
     }
 
     /**
