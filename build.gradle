@@ -1,6 +1,6 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.3.70"
-    id "com.eden.orchidPlugin" version "0.21.0"
+    id "org.jetbrains.kotlin.jvm"
+    id "com.eden.orchidPlugin"
 }
 
 repositories {
@@ -9,13 +9,13 @@ repositories {
 }
 
 dependencies {
-    orchidRuntime "io.github.javaeden.orchid:OrchidCore:0.21.0"
-    orchidRuntime "io.github.javaeden.orchid:OrchidDocs:0.21.0"
-    orchidRuntime "io.github.javaeden.orchid:OrchidKotlindoc:0.21.0"
-    orchidRuntime "io.github.javaeden.orchid:OrchidPluginDocs:0.21.0"
-    orchidRuntime "io.github.javaeden.orchid:OrchidGithub:0.21.0"
-    orchidRuntime "io.github.javaeden.orchid:OrchidSyntaxHighlighter:0.21.0"
-    orchidRuntime "io.github.javaeden.orchid:OrchidSearch:0.21.0"
+    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidCore:$version_orchid"
+    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidDocs:$version_orchid"
+    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidKotlindoc:$version_orchid"
+    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidPluginDocs:$version_orchid"
+    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidGithub:$version_orchid"
+    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidSyntaxHighlighter:$version_orchid"
+    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidSearch:$version_orchid"
 }
 
 allprojects {

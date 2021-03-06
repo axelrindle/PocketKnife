@@ -1,3 +1,9 @@
+pluginManagement {
+    plugins {
+        id "org.jetbrains.kotlin.jvm" version "$version_kotlin"
+        id "com.eden.orchidPlugin" version "$version_orchid"
+    }
+}
+
 rootProject.name = 'PocketKnife'
 include 'api', 'sample-plugin'
-

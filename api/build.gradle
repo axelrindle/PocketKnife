@@ -25,11 +25,11 @@ configurations {
 
 dependencies {
     // Kotlin stdlib
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${project.version_kotlin}"
-    compileOnly "org.jetbrains.kotlin:kotlin-reflect:${project.version_kotlin}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
 
     // Spigot/Bukkit API
-    compileOnly "org.spigotmc:spigot-api:${project.version_spigot}"
+    compileOnly "org.spigotmc:spigot-api:$version_spigot"
 
     // Dependencies
     implementation group: "org.jetbrains", name: "annotations", version: "16.0.3"
@@ -37,8 +37,7 @@ dependencies {
 
     // Tests
     testImplementation "junit:junit:4.12"
-    testImplementation "io.kotest:kotest-runner-junit5-jvm:${project.version_kotest}"
-    testImplementation "io.kotest:kotest-assertions-core-jvm:${project.version_kotest}"
+    testImplementation "io.kotest:kotest-assertions-core-jvm:$version_kotest"
     testImplementation "io.kotest:kotest-property-jvm:${project.version_kotest}"
     testImplementation group: "org.slf4j", name: "slf4j-simple", version: "1.7.25"
     testImplementation 'com.github.seeseemelk:MockBukkit-v1.16:0.25.0'

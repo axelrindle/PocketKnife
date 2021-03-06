@@ -9,11 +9,11 @@ dependencies {
     implementation project(":api")
 
     // Kotlin stdlib
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${project.version_kotlin}"
-    compileOnly "org.jetbrains.kotlin:kotlin-reflect:${project.version_kotlin}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
 
     // Spigot/Bukkit API
-    compileOnly "org.spigotmc:spigot-api:${project.version_spigot}"
+    compileOnly "org.spigotmc:spigot-api:$version_spigot"
 }
 
 shadowJar {
