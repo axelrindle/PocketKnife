@@ -119,7 +119,7 @@ class PocketLang(
 
         // nothing was found
         if (supposed == null && default == null) {
-            plugin.logger.warning("No default entry was found for localization key '$key'!")
+            plugin.logger.severe("No default entry was found for localization key '$key'!")
             return null
         }
 
