@@ -16,7 +16,10 @@ class PocketLang(
         private val pocketConfig: PocketConfig
 ) {
 
-    private val configName = "localization"
+    companion object {
+        const val CONFIG_NAME = "localization"
+    }
+
     private val supportedLanguages: ArrayList<String> = ArrayList()
 
     /**
@@ -87,7 +90,7 @@ class PocketLang(
         }
 
         // register own config file
-        pocketConfig.register(configName, javaClass.getResourceAsStream("/localization.yml"))
+        pocketConfig.register(CONFIG_NAME, javaClass.getResourceAsStream("/localization.yml"))
 
         // register appropriate config files
         supportedLanguages.forEach {
@@ -97,13 +100,13 @@ class PocketLang(
     }
 
     internal fun getDefaultConfig(): YamlConfiguration? {
-        val localization = pocketConfig.access(configName)
+        val localization = pocketConfig.access(CONFIG_NAME)
         val language = localization?.getString("DefaultLanguage")
         return pocketConfig.access("lang/$language")
     }
 
     internal fun getLocaleConfig(): YamlConfiguration? {
-        val localization = pocketConfig.access(configName)
+        val localization = pocketConfig.access(CONFIG_NAME)
         val language = localization?.getString("UseLanguage")
         return pocketConfig.access("lang/$language")
     }
