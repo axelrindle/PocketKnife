@@ -55,7 +55,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
 
             // try to find a matching sub-command
             for (subCommand in subCommands) {
-                if (subCommand.getName().toLowerCase() == subName.toLowerCase()) {
+                if (subCommand.getName().equals(subName, ignoreCase = true)) {
                     found = true
                     result = subCommand.onCommand(sender, command, label,
                             if (args.isNotEmpty()) args.copyOfRange(1, args.size) else args)
