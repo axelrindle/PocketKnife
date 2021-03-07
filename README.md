@@ -71,6 +71,13 @@ Afterwards a jar file can be built by running the Gradle task `shadowJar`.
 
 Documentation is moving to [the website](https://axelrindle.github.io/PocketKnife/).
 
+## Used by
+
+- [Broadcaster](https://github.com/axelrindle/Broadcaster-Plugin)
+- [SimpleCoins](https://github.com/axelrindle/SimpleCoins)
+
+*Feel free to add your plugin here by sending a pull request.*
+
 ## License
 
 [Apache-2.0](LICENSE)
