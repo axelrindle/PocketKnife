@@ -92,7 +92,8 @@ class PocketLang(
         }
 
         // register own config file
-        pocketConfig.register(CONFIG_NAME, javaClass.getResourceAsStream("/localization.yml"))
+        val pocketKnifeDir = plugin.dataFolder.parentFile.resolve("PocketKnife")
+        pocketConfig.register(pocketKnifeDir, CONFIG_NAME, javaClass.getResourceAsStream("/localization.yml"))
 
         // register appropriate config files
         supportedLanguages.forEach {

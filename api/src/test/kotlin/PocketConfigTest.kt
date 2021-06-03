@@ -2,8 +2,10 @@ import be.seeseemelk.mockbukkit.MockBukkit
 import de.axelrindle.pocketknife.PocketConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldEndWith
 import java.io.File
 
 class PocketConfigTest : ShouldSpec({
@@ -29,6 +31,20 @@ class PocketConfigTest : ShouldSpec({
                 pocketConfig.register("testConfig")
             }
             exception.message shouldBe "A config named 'testConfig' is already registered!"
+        }
+
+        should("place the file in a custom directory when given") {
+            val directory = mockedPlugin.dataFolder.parentFile.resolve("anotherDirectory")
+            pocketConfig.register(directory, "another")
+
+            pocketConfig.access("another") shouldNotBe null
+
+            val files = directory.listFiles()
+            files shouldNotBe null
+            files shouldHaveSize 1
+            val first = files.first()
+            first shouldNotBe null
+            first.absolutePath shouldEndWith "anotherDirectory/another.yml"
         }
     }
 

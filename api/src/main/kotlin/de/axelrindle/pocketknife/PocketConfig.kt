@@ -44,22 +44,13 @@ class PocketConfig(
         }
     }
 
-    /**
-     * Registers a new config file.
-     *
-     * @param name The name of the file.
-     * @param defaults An optional [InputStream] from which default config entries can be read.
-     *
-     * @throws IllegalArgumentException If a config is already registered.
-     * @throws IOException If an I/O error occurs.
-     */
-    fun register(name: String, defaults: InputStream? = null) {
+    internal fun register(directory: File, name: String, defaults: InputStream? = null) {
         // we don't want duplicated or overwritten data
         if (configFiles.containsKey(name))
             throw IllegalArgumentException("A config named '$name' is already registered!")
 
         // store pathname
-        val file = File(plugin.dataFolder, "$name.yml")
+        val file = File(directory, "$name.yml")
         configFiles[name] = file.absolutePath
 
         // create a new config instance
@@ -88,6 +79,19 @@ class PocketConfig(
         } catch (e: InvalidConfigurationException) {
             plugin.logger.severe("The configuration file '${file.absolutePath}' is invalid!")
         }
+    }
+
+    /**
+     * Registers a new config file.
+     *
+     * @param name The name of the file.
+     * @param defaults An optional [InputStream] from which default config entries can be read.
+     *
+     * @throws IllegalArgumentException If a config is already registered.
+     * @throws IOException If an I/O error occurs.
+     */
+    fun register(name: String, defaults: InputStream? = null) {
+        register(plugin.dataFolder, name, defaults)
     }
 
     /**
