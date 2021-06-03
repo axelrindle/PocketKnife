@@ -2,6 +2,7 @@ package de.axelrindle.pocketknife
 
 import org.apache.commons.io.FilenameUtils
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.nio.file.Files
@@ -106,9 +107,9 @@ class PocketLang(
         return pocketConfig.access("lang/$language")
     }
 
-    internal fun getLocaleConfig(): YamlConfiguration? {
+    internal fun getLocaleConfig(locale: String? = null): YamlConfiguration? {
         val localization = pocketConfig.access(CONFIG_NAME)
-        val language = localization?.getString("UseLanguage")
+        val language = locale ?: localization?.getString("UseLanguage")
         return pocketConfig.access("lang/$language")
     }
 
@@ -116,13 +117,15 @@ class PocketLang(
      * Returns the localized string for the given key.
      *
      * @param key The localizing key.
+     * @param player When given, the player's locale is used for localization.
      * @param args Any arguments to format the localized string with.
      *
      * @return The localized string, the default localized string, or `null`.
      * @see String.format
      */
-    fun localize(key: String, vararg args: Any?): String? {
-        val supposed = getLocaleConfig()?.getString(key)
+    fun localize(key: String, player: Player? = null, vararg args: Any?): String? {
+        val localeConfig = getLocaleConfig(player?.locale) ?: getLocaleConfig()
+        val supposed = localeConfig?.getString(key)
         val default = getDefaultConfig()?.getString(key)
 
         // nothing was found
@@ -140,4 +143,10 @@ class PocketLang(
         // translated
         return supposed?.format(*args)
     }
+
+    @Deprecated(
+        "Only kept for compatibility. Use the new function.",
+        ReplaceWith("localize(key, null, args)")
+    )
+    fun localize(key: String, vararg args: Any?) = localize(key, null, args)
 }

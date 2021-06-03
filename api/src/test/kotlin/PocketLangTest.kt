@@ -10,6 +10,7 @@ import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.endWith
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
+import java.util.*
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
@@ -29,6 +30,7 @@ class PocketLangTest : ShouldSpec({
         should("return null before init") {
             pocketLang.getDefaultConfig() shouldBe null
             pocketLang.getLocaleConfig() shouldBe null
+            pocketLang.getLocaleConfig("de") shouldBe null
         }
     }
 
@@ -75,11 +77,18 @@ class PocketLangTest : ShouldSpec({
 
     context("localize") {
         should("return null when no matching key is found") {
-            pocketLang.localize("unknownMessage") shouldBe null
+            pocketLang.localize("unknownMessage", player = null) shouldBe null
         }
 
         should("return the localized string") {
-            pocketLang.localize("message3", "Axel") shouldBe "Hallo Axel"
+            pocketLang.localize("message3", null,"Axel") shouldBe "Hallo Axel"
+        }
+
+        should("respect a player's locale") {
+            val playerMock = CustomPlayerMock(MockBukkit.getMock(), "mister_unique", UUID.randomUUID())
+            playerMock.locale = "ru"
+
+            pocketLang.localize("message3", playerMock, playerMock.name) shouldBe "привет mister_unique"
         }
     }
 })
