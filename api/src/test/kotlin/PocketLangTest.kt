@@ -90,5 +90,12 @@ class PocketLangTest : ShouldSpec({
 
             pocketLang.localize("message3", playerMock, playerMock.name) shouldBe "привет mister_unique"
         }
+
+        should("fallback to the default locale if the player's locale is not supported") {
+            val playerMock = CustomPlayerMock(MockBukkit.getMock(), "mister_unique", UUID.randomUUID())
+            playerMock.locale = "pl"
+
+            pocketLang.localize("message3", playerMock, playerMock.name) shouldBe "Hallo mister_unique"
+        }
     }
 })
