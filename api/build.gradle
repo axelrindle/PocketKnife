@@ -25,8 +25,8 @@ jacocoTestReport {
 
 dependencies {
     // Kotlin stdlib
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version_kotlin"
+    api "org.jetbrains.kotlin:kotlin-reflect:$version_kotlin"
 
     // Spigot/Bukkit API
     compileOnly "org.spigotmc:spigot-api:$version_spigot"
