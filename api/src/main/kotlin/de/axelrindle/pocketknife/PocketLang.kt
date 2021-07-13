@@ -102,12 +102,14 @@ class PocketLang(
         }
     }
 
+    @JvmSynthetic
     internal fun getDefaultConfig(): YamlConfiguration? {
         val localization = pocketConfig.access(CONFIG_NAME)
         val language = localization?.getString("DefaultLanguage")
         return pocketConfig.access("lang/$language")
     }
 
+    @JvmSynthetic
     internal fun getLocaleConfig(locale: String? = null): YamlConfiguration? {
         val localization = pocketConfig.access(CONFIG_NAME)
         val language = locale ?: localization?.getString("UseLanguage")

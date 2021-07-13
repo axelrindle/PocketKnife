@@ -24,6 +24,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
          * @param plugin The executing [JavaPlugin].
          * @param pocketCommand The [PocketCommand] instance.
          */
+        @JvmStatic
         fun register(plugin: JavaPlugin, pocketCommand: PocketCommand) {
             val pluginCommand = plugin.getCommand(pocketCommand.getName())!!
             pocketCommand.pluginCommand = pluginCommand.apply {

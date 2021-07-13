@@ -44,6 +44,7 @@ class PocketConfig(
         }
     }
 
+    @JvmSynthetic
     internal fun register(directory: File, name: String, defaults: InputStream? = null) {
         // we don't want duplicated or overwritten data
         if (configFiles.containsKey(name))
