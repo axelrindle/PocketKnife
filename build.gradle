@@ -1,10 +1,10 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm"
+    id "org.jetbrains.kotlin.jvm" version "$version_kotlin"
     id "com.eden.orchidPlugin"
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven { url "https://kotlin.bintray.com/kotlinx" }
 }
 
@@ -34,10 +34,10 @@ subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
 
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
     }
 
     processResources {
