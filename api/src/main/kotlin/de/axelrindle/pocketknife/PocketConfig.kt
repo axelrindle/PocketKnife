@@ -96,6 +96,16 @@ class PocketConfig(
     }
 
     /**
+     * Retrieves a list of all registered config files.
+     *
+     * @return An [ArrayList] holding a list of registered config file names.
+     * @since 2.2.0
+     */
+    fun list(): ArrayList<String> {
+        return ArrayList(configFiles.keys)
+    }
+
+    /**
      * @return A [YamlConfiguration] instance for the given config, or `null`.
      */
     fun access(name: String): YamlConfiguration? {
