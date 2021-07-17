@@ -1,3 +1,7 @@
 name: MockedTestPlugin
 version: 1.0.0
 main: CustomMockPlugin
+commands:
+  test:
+    description: Used for testing
+    usage: /test [args]
