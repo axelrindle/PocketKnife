@@ -10,30 +10,38 @@ import java.util.logging.Level
 /**
  * A reload command is a common practice which allows users to reload
  * a configuration file at runtime.
+ *
+ * @since 2.2.0
  */
-abstract class ReloadConfigCommand(
+open class ReloadConfigCommand(
     private val plugin: JavaPlugin,
     private val config: PocketConfig
 ) : PocketCommand() {
 
     /**
+     * Called right before the reload is executed. Use this for example
+     * to stop dependent tasks which depend on the configuration.
+     */
+    open fun onPreReload() {}
+
+    /**
      * Called once when a user reloads all config files at once.
      */
-    abstract fun onReloadAll()
+    open fun onReloadAll() {}
 
     /**
      * Called once for each config file that is reloaded individually.
      *
      * @param which The name of the config file which was reloaded.
      */
-    abstract fun onReload(which: String)
+    open fun onReload(which: String) {}
 
     /**
      * Called when an invalid config name has been supplied.
      *
      * @param which The invalid config name.
      */
-    abstract fun onInvalid(which: String)
+    open fun onInvalid(which: String) {}
 
     override fun getName(): String {
         return "reload"
@@ -41,10 +49,12 @@ abstract class ReloadConfigCommand(
 
     override fun handle(sender: CommandSender, command: Command, args: Array<out String>): Boolean {
         if (args.isEmpty()) {
+            onPreReload()
             config.reloadAll()
             onReloadAll()
         } else {
             args.forEach {
+                onPreReload()
                 try {
                     config.reload(it)
                     onReload(it)

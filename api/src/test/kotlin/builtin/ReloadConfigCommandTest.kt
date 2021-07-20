@@ -6,6 +6,8 @@ import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock
 import de.axelrindle.pocketknife.PocketCommand
 import de.axelrindle.pocketknife.PocketConfig
 import de.axelrindle.pocketknife.builtin.command.ReloadConfigCommand
+import io.kotest.assertions.fail
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.*
 import io.kotest.matchers.shouldBe
@@ -20,40 +22,35 @@ class ReloadConfigCommandTest : StringSpec({
     pocketConfig.register("config", mockedPlugin.getResource("/testConfig.yml"))
     pocketConfig.register("anotherConfig", mockedPlugin.getResource("/testConfig.yml"))
 
-    "onReloadAll should be called once" {
+    "onPreReload & onReloadAll should be called once" {
+        var preCalls = 0
         var calls = 0
         val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
+            override fun onPreReload() {
+                preCalls++
+            }
+
             override fun onReloadAll() {
                 calls++
-            }
-
-            override fun onReload(which: String) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onInvalid(which: String) {
-                TODO("Not yet implemented")
             }
         }
         PocketCommand.register(mockedPlugin, command)
         command.onCommand(sender, pluginCommand, pluginCommand.label, emptyArray())
 
+        preCalls shouldBe 1
         calls shouldBe 1
     }
 
-    "onReload should be called twice" {
+    "onPreReload & onReload should be called twice" {
+        var preCalls = 0
         var calls = 0
         val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
-            override fun onReloadAll() {
-                TODO("Not yet implemented")
+            override fun onPreReload() {
+                preCalls++
             }
 
             override fun onReload(which: String) {
                 calls++
-            }
-
-            override fun onInvalid(which: String) {
-                TODO("Not yet implemented")
             }
         }
         PocketCommand.register(mockedPlugin, command)
@@ -61,17 +58,15 @@ class ReloadConfigCommandTest : StringSpec({
         command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("config"))
         command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("anotherConfig"))
 
+        preCalls shouldBe 2
         calls shouldBe 2
     }
 
-    "onInvalid should be called for unknown config names" {
+    "onInvalid should be called for unknown config names while onPreReload gets also called" {
+        var preCalled = false
         val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
-            override fun onReloadAll() {
-                TODO("Not yet implemented")
-            }
-
-            override fun onReload(which: String) {
-                TODO("Not yet implemented")
+            override fun onPreReload() {
+                preCalled = true
             }
 
             override fun onInvalid(which: String) {
@@ -80,22 +75,48 @@ class ReloadConfigCommandTest : StringSpec({
         }
         PocketCommand.register(mockedPlugin, command)
         command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("unknown"))
+
+        preCalled shouldBe true
     }
 
-    "tabComplete should behave correctly" {
+    "an exception in onPreReload does not lead to onInvalid being called when reloading s single config file" {
         val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
-            override fun onReloadAll() {
-                TODO("Not yet implemented")
-            }
-
-            override fun onReload(which: String) {
-                TODO("Not yet implemented")
+            override fun onPreReload() {
+                throw RuntimeException("imagine a severe error here")
             }
 
             override fun onInvalid(which: String) {
-                TODO("Not yet implemented")
+                fail("onInvalid should not be called!")
             }
         }
+        PocketCommand.register(mockedPlugin, command)
+
+        val thrown = shouldThrow<RuntimeException> {
+            command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("config"))
+        }
+        thrown.message shouldBe "imagine a severe error here"
+    }
+
+    "an exception in onPreReload does not lead to onInvalid being called when reloading all config files" {
+        val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
+            override fun onPreReload() {
+                throw RuntimeException("imagine a severe error here")
+            }
+
+            override fun onInvalid(which: String) {
+                fail("onInvalid should not be called!")
+            }
+        }
+        PocketCommand.register(mockedPlugin, command)
+
+        val thrown = shouldThrow<RuntimeException> {
+            command.onCommand(sender, pluginCommand, pluginCommand.label, emptyArray())
+        }
+        thrown.message shouldBe "imagine a severe error here"
+    }
+
+    "tabComplete should behave correctly" {
+        val command = ReloadConfigCommand(mockedPlugin, pocketConfig)
         PocketCommand.register(mockedPlugin, command)
 
         command.tabComplete(sender, pluginCommand, emptyArray())
