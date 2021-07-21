@@ -13,61 +13,119 @@ import java.util.logging.Level
  *
  * @since 2.2.0
  */
-open class ReloadConfigCommand(
-    private val plugin: JavaPlugin,
-    private val config: PocketConfig
-) : PocketCommand() {
+open class ReloadConfigCommand<T>(
+    protected val plugin: T,
+    protected val config: PocketConfig
+) : PocketCommand() where T : JavaPlugin {
 
     /**
-     * Called right before the reload is executed. Use this for example
-     * to stop dependent tasks which depend on the configuration.
+     * Represents events in the command lifecycle.
      */
-    open fun onPreReload() {}
+    enum class Event {
+        /**
+         * Occurs before anything is done. Use this to stop tasks depending on config files.
+         */
+        PRE_RELOAD,
+
+        /**
+         * Occurs after the config files have been reloaded and no error occurred.
+         */
+        AFTER_RELOAD,
+
+        /**
+         * Called for every single config file that is being reloaded.
+         */
+        SINGLE,
+
+        /**
+         * Indicates that an invalid config name has been supplied by the user.
+         */
+        INVALID,
+
+        /**
+         * Indicates that an unexpected error has occurred (e.g. an [java.io.IOException]).
+         */
+        ERROR
+    }
 
     /**
-     * Called once when a user reloads all config files at once.
+     * Indicates whether users can reload single config files instead of all.
      */
-    open fun onReloadAll() {}
+    protected open val canReloadSingle: Boolean = true
 
     /**
-     * Called once for each config file that is reloaded individually.
+     * Called for each event in the command lifecycle.
      *
-     * @param which The name of the config file which was reloaded.
-     */
-    open fun onReload(which: String) {}
-
-    /**
-     * Called when an invalid config name has been supplied.
+     * @param event The [Event] that occurred.
+     * @param sender The [CommandSender] which initiated the reload.
+     * @param info An optional piece of information usually indicating which config files
+     *             is being reloaded.
+     * @param error An optional [Throwable] object supplied if an unexpected error occurs.
      *
-     * @param which The invalid config name.
+     * @see Event
      */
-    open fun onInvalid(which: String) {}
+    open fun onEvent(event: Event, sender: CommandSender, info: String? = null, error: Throwable? = null) {
+        if (error != null) {
+            plugin.logger.log(Level.SEVERE, "Failed reloading the config file \"$info\"!", error)
+        }
+    }
 
     override fun getName(): String {
         return "reload"
     }
 
-    override fun handle(sender: CommandSender, command: Command, args: Array<out String>): Boolean {
-        if (args.isEmpty()) {
-            onPreReload()
-            config.reloadAll()
-            onReloadAll()
-        } else {
-            args.forEach {
-                onPreReload()
-                try {
-                    config.reload(it)
-                    onReload(it)
-                } catch (e: IllegalArgumentException) {
-                    onInvalid(it)
-                    plugin.logger.log(Level.SEVERE, "Failed reloading the config file \"$it\"!", e)
-                }
-            }
-        }
-        return true
+    override fun getUsage(): String {
+        return if (canReloadSingle) "/${getName()} [config]"
+        else "/" + getName()
     }
 
-    override fun tabComplete(sender: CommandSender, command: Command, args: Array<out String>): MutableList<String> {
+    final override fun handle(sender: CommandSender, command: Command, args: Array<out String>): Boolean {
+        onEvent(Event.PRE_RELOAD, sender)
+
+        return when {
+            args.isEmpty() -> {
+                try {
+                    config.reloadAll()
+                    onEvent(Event.AFTER_RELOAD, sender)
+                } catch (e: IllegalArgumentException) {
+                    onEvent(Event.INVALID, sender, null)
+                } catch (e: Exception) {
+                    onEvent(Event.ERROR, sender, null, e)
+                }
+                true
+            }
+            canReloadSingle -> {
+                runCatching {
+                    for (it in args) {
+                        config.reload(it)
+                        onEvent(Event.SINGLE, sender, it)
+                    }
+                }
+                    .onSuccess {
+                        onEvent(Event.AFTER_RELOAD, sender)
+                    }
+                    .onFailure { exception ->
+                        if (exception is IllegalArgumentException) {
+                            val notApostrophe: (Char) -> Boolean = { it != '\'' }
+                            val which = exception.message // extract config name from exception message
+                                ?.dropWhile(notApostrophe)
+                                ?.dropLastWhile(notApostrophe)
+                                ?.drop(1)
+                                ?.dropLast(1)
+                            onEvent(Event.INVALID, sender, which, exception)
+                        } else {
+                            onEvent(Event.ERROR, sender, null, exception)
+                        }
+                    }
+                true
+            }
+            else -> false
+        }
+    }
+
+    final override fun tabComplete(sender: CommandSender, command: Command, args: Array<out String>): MutableList<String> {
+        if (canReloadSingle.not()) return arrayListOf()
+
         val all = config.list()
         if (args.isEmpty()) return all
         else return all.filter { element ->

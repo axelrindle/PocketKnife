@@ -6,11 +6,12 @@ import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock
 import de.axelrindle.pocketknife.PocketCommand
 import de.axelrindle.pocketknife.PocketConfig
 import de.axelrindle.pocketknife.builtin.command.ReloadConfigCommand
-import io.kotest.assertions.fail
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.*
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import org.bukkit.command.CommandSender
 
 class ReloadConfigCommandTest : StringSpec({
 
@@ -25,13 +26,14 @@ class ReloadConfigCommandTest : StringSpec({
     "onPreReload & onReloadAll should be called once" {
         var preCalls = 0
         var calls = 0
-        val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
-            override fun onPreReload() {
-                preCalls++
-            }
-
-            override fun onReloadAll() {
-                calls++
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, pocketConfig) {
+            override fun onEvent(event: Event, sender: CommandSender, info: String?, error: Throwable?) {
+                super.onEvent(event, sender, info, error)
+                when(event) {
+                    Event.PRE_RELOAD -> preCalls++
+                    Event.AFTER_RELOAD -> calls++
+                    else -> org.junit.jupiter.api.fail("Something unexpected happened! ($event)", error)
+                }
             }
         }
         PocketCommand.register(mockedPlugin, command)
@@ -44,13 +46,15 @@ class ReloadConfigCommandTest : StringSpec({
     "onPreReload & onReload should be called twice" {
         var preCalls = 0
         var calls = 0
-        val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
-            override fun onPreReload() {
-                preCalls++
-            }
-
-            override fun onReload(which: String) {
-                calls++
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, pocketConfig) {
+            override fun onEvent(event: Event, sender: CommandSender, info: String?, error: Throwable?) {
+                super.onEvent(event, sender, info, error)
+                when(event) {
+                    Event.PRE_RELOAD -> preCalls++
+                    Event.SINGLE -> {}
+                    Event.AFTER_RELOAD -> calls++
+                    else -> org.junit.jupiter.api.fail("Something unexpected happened! ($event)", error)
+                }
             }
         }
         PocketCommand.register(mockedPlugin, command)
@@ -64,13 +68,17 @@ class ReloadConfigCommandTest : StringSpec({
 
     "onInvalid should be called for unknown config names while onPreReload gets also called" {
         var preCalled = false
-        val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
-            override fun onPreReload() {
-                preCalled = true
-            }
-
-            override fun onInvalid(which: String) {
-                which shouldBe "unknown"
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, pocketConfig) {
+            override fun onEvent(event: Event, sender: CommandSender, info: String?, error: Throwable?) {
+                super.onEvent(event, sender, info, error)
+                when(event) {
+                    Event.PRE_RELOAD -> preCalled = true
+                    Event.INVALID -> {
+                        info shouldBe "unknown"
+                        error shouldNotBe null
+                    }
+                    else -> org.junit.jupiter.api.fail("Something unexpected happened! ($event)", error)
+                }
             }
         }
         PocketCommand.register(mockedPlugin, command)
@@ -80,13 +88,13 @@ class ReloadConfigCommandTest : StringSpec({
     }
 
     "an exception in onPreReload does not lead to onInvalid being called when reloading s single config file" {
-        val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
-            override fun onPreReload() {
-                throw RuntimeException("imagine a severe error here")
-            }
-
-            override fun onInvalid(which: String) {
-                fail("onInvalid should not be called!")
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, pocketConfig) {
+            override fun onEvent(event: Event, sender: CommandSender, info: String?, error: Throwable?) {
+                super.onEvent(event, sender, info, error)
+                when(event) {
+                    Event.PRE_RELOAD -> throw RuntimeException("imagine a severe error here")
+                    else -> org.junit.jupiter.api.fail("Something unexpected happened! ($event)", error)
+                }
             }
         }
         PocketCommand.register(mockedPlugin, command)
@@ -98,13 +106,13 @@ class ReloadConfigCommandTest : StringSpec({
     }
 
     "an exception in onPreReload does not lead to onInvalid being called when reloading all config files" {
-        val command = object : ReloadConfigCommand(mockedPlugin, pocketConfig) {
-            override fun onPreReload() {
-                throw RuntimeException("imagine a severe error here")
-            }
-
-            override fun onInvalid(which: String) {
-                fail("onInvalid should not be called!")
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, pocketConfig) {
+            override fun onEvent(event: Event, sender: CommandSender, info: String?, error: Throwable?) {
+                super.onEvent(event, sender, info, error)
+                when(event) {
+                    Event.PRE_RELOAD -> throw RuntimeException("imagine a severe error here")
+                    else -> org.junit.jupiter.api.fail("Something unexpected happened!", error)
+                }
             }
         }
         PocketCommand.register(mockedPlugin, command)

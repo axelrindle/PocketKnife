@@ -1,14 +1,24 @@
 package de.axelrindle.testplugin.command
 
-import de.axelrindle.pocketknife.PocketCommand
-import de.axelrindle.testplugin.PocketKnifeTestPlugin
+import de.axelrindle.pocketknife.PocketConfig
+import de.axelrindle.pocketknife.builtin.command.ReloadConfigCommand
 import de.axelrindle.pocketknife.util.sendMessageF
-import org.bukkit.command.Command
+import de.axelrindle.testplugin.PocketKnifeTestPlugin
 import org.bukkit.command.CommandSender
 
-class ReloadCommand(
-        private val plugin: PocketKnifeTestPlugin
-) : PocketCommand() {
+class ReloadCommand(plugin: PocketKnifeTestPlugin, config: PocketConfig) :
+    ReloadConfigCommand<PocketKnifeTestPlugin>(plugin, config) {
+
+    override fun onEvent(event: Event, sender: CommandSender, info: String?, error: Throwable?) {
+        super.onEvent(event, sender, info, error)
+        when(event) {
+            Event.PRE_RELOAD -> sender.sendMessageF("Dependent tasks have been stopped.")
+            Event.AFTER_RELOAD -> sender.sendMessageF("Dependent tasks have been restarted.")
+            Event.INVALID -> sender.sendMessageF("&c${error!!.message}")
+            Event.ERROR -> sender.sendMessageF("&cAn error occurred! Please check the console for details.")
+            else -> {} // ignore everything else
+        }
+    }
 
     override fun getName(): String {
         return "reload"
@@ -23,14 +33,7 @@ class ReloadCommand(
     }
 
     override fun getUsage(): String {
-        return "/pocketknife reload"
-    }
-
-    override fun handle(sender: CommandSender, command: Command, args: Array<out String>): Boolean {
-        plugin.config.reloadAll()
-        val msg = plugin.localization.localize("Messages.Reload")!!
-        sender.sendMessageF(msg)
-        return true
+        return "/pocketknife reload [config]"
     }
 
     override fun messageNoMatch(input: String): String {
