@@ -9,9 +9,14 @@ import de.axelrindle.pocketknife.builtin.command.ReloadConfigCommand
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.collections.*
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.types.beInstanceOf
+import io.mockk.every
+import io.mockk.mockk
 import org.bukkit.command.CommandSender
+import java.io.IOException
 
 class ReloadConfigCommandTest : StringSpec({
 
@@ -37,7 +42,7 @@ class ReloadConfigCommandTest : StringSpec({
             }
         }
         PocketCommand.register(mockedPlugin, command)
-        command.onCommand(sender, pluginCommand, pluginCommand.label, emptyArray())
+        command.onCommand(sender, pluginCommand, pluginCommand.label, emptyArray()) shouldBe true
 
         preCalls shouldBe 1
         calls shouldBe 1
@@ -59,8 +64,8 @@ class ReloadConfigCommandTest : StringSpec({
         }
         PocketCommand.register(mockedPlugin, command)
 
-        command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("config"))
-        command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("anotherConfig"))
+        command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("config")) shouldBe true
+        command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("anotherConfig")) shouldBe true
 
         preCalls shouldBe 2
         calls shouldBe 2
@@ -82,7 +87,7 @@ class ReloadConfigCommandTest : StringSpec({
             }
         }
         PocketCommand.register(mockedPlugin, command)
-        command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("unknown"))
+        command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("unknown")) shouldBe true
 
         preCalled shouldBe true
     }
@@ -135,5 +140,78 @@ class ReloadConfigCommandTest : StringSpec({
         command.tabComplete(sender, pluginCommand, arrayOf("C")) shouldContainExactly arrayListOf("anotherConfig")
         command.tabComplete(sender, pluginCommand, arrayOf("c")) shouldContainExactly arrayListOf("config")
         command.tabComplete(sender, pluginCommand, arrayOf("x")).shouldBeEmpty()
+    }
+
+    "reloading all configs must not result in an INVALID event" {
+        val configMock = mockk<PocketConfig>()
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, configMock) {
+            override fun onEvent(event: Event, sender: CommandSender, info: String?, error: Throwable?) {
+                super.onEvent(event, sender, info, error)
+                when(event) {
+                    Event.INVALID -> io.kotest.assertions.fail("Event.INVALID must not occur!")
+                    Event.ERROR -> {
+                        info shouldBe null
+                        error should beInstanceOf<IOException>()
+                    }
+                    else -> {} // ignore
+                }
+            }
+        }
+        PocketCommand.register(mockedPlugin, command)
+
+        every { configMock.reloadAll() } throws IOException("imagine an I/O error here")
+
+        command.onCommand(sender, pluginCommand, pluginCommand.label, emptyArray())
+    }
+
+    "an unexpected exception while reloading all configs leads to Event.AFTER_RELOAD not being called" {
+
+    }
+
+    "an unexpected exception causes the operation to be aborted" {
+        var preCalls = 0
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, pocketConfig) {
+            override fun onEvent(event: Event, sender: CommandSender, info: String?, error: Throwable?) {
+                super.onEvent(event, sender, info, error)
+                when(event) {
+                    Event.PRE_RELOAD -> preCalls++
+                    Event.SINGLE -> throw IOException("imagine the file could not be read")
+                    Event.ERROR -> {
+                        info shouldBe null
+                        error should beInstanceOf<IOException>()
+                    }
+                    else -> org.junit.jupiter.api.fail("Something unexpected happened!", error)
+                }
+            }
+        }
+        PocketCommand.register(mockedPlugin, command)
+
+        command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("config", "anotherConfig")) shouldBe true
+        preCalls shouldBe 1
+    }
+
+    "invalid usage returns true" {
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, pocketConfig) {
+            override val canReloadSingle: Boolean = false
+        }
+        PocketCommand.register(mockedPlugin, command)
+
+        command.onCommand(sender, pluginCommand, pluginCommand.label, arrayOf("config", "anotherConfig")) shouldBe false
+        command.onCommand(sender, pluginCommand, pluginCommand.label, emptyArray()) shouldBe true
+    }
+
+    "default getUsage implementation respects the canReloadSingle setting" {
+        var localCanReloadSingle = true
+        val command = object : ReloadConfigCommand<CustomMockPlugin>(mockedPlugin, pocketConfig) {
+            override val canReloadSingle: Boolean
+                get() = localCanReloadSingle
+        }
+        PocketCommand.register(mockedPlugin, command)
+
+        command.getUsage() shouldBe "/reload [config]"
+
+        localCanReloadSingle = false
+
+        command.getUsage() shouldBe "/reload"
     }
 })
