@@ -10,7 +10,7 @@ class PocketKnifeCommand(
 ) : PocketCommand() {
 
     override val subCommands = arrayListOf(
-            ReloadCommand(plugin),
+            ReloadCommand(plugin, plugin.config),
             GuiCommand(plugin),
             NotesCommand(plugin)
     )
