@@ -87,8 +87,6 @@ open class ReloadConfigCommand<T>(
                 try {
                     config.reloadAll()
                     onEvent(Event.AFTER_RELOAD, sender)
-                } catch (e: IllegalArgumentException) {
-                    onEvent(Event.INVALID, sender, null)
                 } catch (e: Exception) {
                     onEvent(Event.ERROR, sender, null, e)
                 }
