@@ -1,21 +1,5 @@
 plugins {
     id "org.jetbrains.kotlin.jvm" version "$version_kotlin"
-    id "com.eden.orchidPlugin"
-}
-
-repositories {
-    mavenCentral()
-    maven { url "https://kotlin.bintray.com/kotlinx" }
-}
-
-dependencies {
-    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidCore:$version_orchid"
-    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidDocs:$version_orchid"
-    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidKotlindoc:$version_orchid"
-    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidPluginDocs:$version_orchid"
-    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidGithub:$version_orchid"
-    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidSyntaxHighlighter:$version_orchid"
-    orchidRuntimeOnly "io.github.javaeden.orchid:OrchidSearch:$version_orchid"
 }
 
 allprojects {
@@ -55,13 +39,4 @@ subprojects {
         }
         into dir
     }
-}
-
-orchid {
-    theme = "Editorial"
-    version = "$project.version"
-    srcDir = "orchid"
-    destDir = "docs"
-    baseUrl = "https://axelrindle.github.io/PocketKnife/"
-    githubToken = System.getenv("GITHUB_TOKEN")
 }
