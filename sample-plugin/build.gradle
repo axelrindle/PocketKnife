@@ -8,10 +8,6 @@ dependencies {
     // PocketKnife
     implementation project(":api")
 
-    // Kotlin stdlib
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "org.jetbrains.kotlin:kotlin-reflect"
-
     // Spigot/Bukkit API
     compileOnly "org.spigotmc:spigot-api:$version_spigot"
 }
