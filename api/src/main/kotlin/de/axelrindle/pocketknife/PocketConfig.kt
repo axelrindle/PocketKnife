@@ -33,10 +33,7 @@ class PocketConfig(
 
         // check whether to create parent directories
         if (plugin.dataFolder.absolutePath != file.parentFile?.absolutePath) {
-            if (file.parentFile.mkdirs().not()) {
-                plugin.logger.severe("Failed to create the directory '${file.parentFile}'!")
-                return
-            }
+            file.parentFile.mkdirs()
         }
 
         if (file.createNewFile().not()) {
