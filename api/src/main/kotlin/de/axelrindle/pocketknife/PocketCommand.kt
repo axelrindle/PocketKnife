@@ -92,11 +92,13 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
     final override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>):
             MutableList<String> {
         val list = ArrayList<String>()
-        if (args.size == 1) { // top level completion
+        if (args.size <= 1) { // top level completion
 
             if (hasSubCommands()) {
                 subCommands.forEach {
-                    if (it.getName().contains(args[0], true) && it.testPermissionSilent(sender)) {
+                    if (it.testPermissionSilent(sender) &&
+                        (args.isEmpty() || it.getName().contains(args[0], true))
+                    ) {
                         list += it.getName()
                     }
                 }
@@ -108,7 +110,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
         else { // recursive deep completion
             subCommands
                     .stream()
-                    .filter { it.getName().equals(args[0], true) }
+                    .filter { args.isEmpty() || it.getName().equals(args[0], true) }
                     .filter { it.testPermissionSilent(sender) }
                     .findFirst()
                     .ifPresent {
