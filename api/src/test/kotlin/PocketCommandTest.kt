@@ -2,7 +2,12 @@ import be.seeseemelk.mockbukkit.MockBukkit
 import be.seeseemelk.mockbukkit.command.ConsoleCommandSenderMock
 import de.axelrindle.pocketknife.PocketCommand
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.collections.beEmpty
+import io.kotest.matchers.collections.shouldContainExactly
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -105,6 +110,137 @@ class PocketCommandTest : StringSpec({
         val resultForTopCommand = pocketCommand.onCommand(player, pluginCommand, "test", emptyArray())
         resultForTopCommand shouldBe true
         player.nextMessage() shouldBe "Test from normal handle"
+    }
+
+    "testPermissionSilent returns true when a player has at least one out of multiple permissions" {
+        val pocketCommand = object : PocketCommand() {
+            override fun getName(): String {
+                return "test"
+            }
+
+            override fun getPermission(): String {
+                return "test.perm1;test.perm2"
+            }
+        }
+        PocketCommand.register(mockedPlugin, pocketCommand)
+
+        val player1 = MockBukkit.getMock().getPlayer(1)
+        player1.addAttachment(mockedPlugin, "test.perm1", true)
+
+        val player2 = MockBukkit.getMock().getPlayer(2)
+        player2.addAttachment(mockedPlugin, "test.perm2", true)
+
+        pocketCommand.testPermissionSilent(player1) shouldBe true
+        pocketCommand.testPermissionSilent(player2) shouldBe true
+    }
+
+    "testPermissionSilent returns false for missing permission(s)" {
+        val pocketCommand = object : PocketCommand() {
+            override fun getName(): String {
+                return "test"
+            }
+
+            override fun getPermission(): String {
+                return "test.perm1;test.perm2"
+            }
+        }
+        PocketCommand.register(mockedPlugin, pocketCommand)
+
+        pocketCommand.testPermissionSilent(player) shouldBe false
+    }
+
+    "testPermission returns false for missing permission(s)" {
+        val pocketCommand = object : PocketCommand() {
+            override fun getName(): String {
+                return "test"
+            }
+
+            override fun getPermission(): String {
+                return "test.perm1;test.perm2"
+            }
+        }
+        PocketCommand.register(mockedPlugin, pocketCommand)
+
+        pocketCommand.testPermission(player) shouldBe false
+    }
+
+    "testPermission sends the correct messages to the sender" {
+        var sendCustom = false
+        val pocketCommand = object : PocketCommand() {
+            override fun getName(): String {
+                return "test"
+            }
+
+            override fun getPermission(): String {
+                return "test.perm1;test.perm2"
+            }
+
+            override fun messageNoPermission(): String? {
+                return if (sendCustom) "You shall not pass!"
+                else null
+            }
+        }
+        PocketCommand.register(mockedPlugin, pocketCommand)
+
+        val player3 = MockBukkit.getMock().getPlayer(3)
+
+        pocketCommand.testPermission(player3) shouldBe false
+        ChatColor.stripColor(player3.nextMessage()) shouldBe "I'm sorry, but you do not have permission to perform " +
+                "this command. Please contact the server administrators if you believe that this is in error."
+
+        sendCustom = true
+        pocketCommand.testPermission(player3) shouldBe false
+        player3.nextMessage() shouldBe "You shall not pass!"
+    }
+
+    "tab completion returns nothing for empty implementation" {
+        val pocketCommand = object : PocketCommand() {
+            override fun getName(): String {
+                return "test"
+            }
+        }
+        PocketCommand.register(mockedPlugin, pocketCommand)
+
+        pocketCommand.onTabComplete(player, pluginCommand, pocketCommand.getName(), emptyArray()) should beEmpty()
+    }
+
+    "tab completion completes sub commands" {
+        val pocketCommand = object : PocketCommand() {
+            override fun getName(): String {
+                return "test"
+            }
+
+            override val subCommands: ArrayList<PocketCommand> = arrayListOf(
+                object : PocketCommand() {
+                    override fun getName(): String = "subCommand1"
+                    override fun getPermission(): String? = null
+                },
+                object : PocketCommand() {
+                    override fun getName(): String = "subCommand2"
+                    override fun getPermission(): String? = null
+                },
+                object : PocketCommand() {
+                    override fun getName(): String = "anotherOne"
+                    override fun getPermission(): String? = null
+                }
+            )
+        }
+        PocketCommand.register(mockedPlugin, pocketCommand)
+
+        val emptyArray = pocketCommand.onTabComplete(player, pluginCommand, pocketCommand.getName(), emptyArray())
+        emptyArray shouldHaveSize 3
+        emptyArray shouldContainExactly arrayListOf("subCommand1", "subCommand2", "anotherOne")
+
+        val sArray = pocketCommand.onTabComplete(player, pluginCommand, pocketCommand.getName(), arrayOf("s"))
+        sArray shouldHaveSize 2
+        sArray shouldContainExactly arrayListOf("subCommand1", "subCommand2")
+
+        val anoArray = pocketCommand.onTabComplete(player, pluginCommand, pocketCommand.getName(), arrayOf("ano"))
+        anoArray shouldHaveSize 1
+        anoArray shouldContainExactly arrayListOf("anotherOne")
+
+        val unknownArray = pocketCommand.onTabComplete(player, pluginCommand, pocketCommand.getName(), arrayOf("unknown"))
+        unknownArray should beEmpty()
     }
 
 })
