@@ -5,6 +5,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Dates are displayed in the format `DD.MM.YYYY`.
 
+## 2.2.0 `(22.07.2021)`
+
+### Added
+
+- Per-player localization
+
+- Builtin config reload command
+
+### Changed
+
+- The localization config has been moved to a central `PocketKnife/` directory inside `plugins/`
+
+### Fixed
+
+- PocketCommand tab-completion no longer fails for an empty array of arguments, but just returns a list of sub-command and/or custom completions
+
 ## 2.1.1 `(07.03.2021)`
 
 ### Fixed
@@ -19,7 +35,7 @@ Dates are displayed in the format `DD.MM.YYYY`.
 
 ### Changed
 
-- The API will not be included as a standalone plugin anymore, but instead be included directly into the plugin's jar file. To avoid classpath conflicts, consider [relocating packages](https://imperceptiblethoughts.com/shadow/configuration/relocation/).
+- The API will not be included as a standalone plugin anymore, but instead be included directly into the plugin's jar file. To avoid classpath conflicts, consider [relocating packages](https://imperceptiblethoughts.com/shadow/configuration/relocation/)
 
 ### Deprecated
 
