@@ -69,7 +69,7 @@ Afterwards a jar file can be built by running the Gradle task `shadowJar`.
 
 ### Usage
 
-Documentation is moving to [the website](https://axelrindle.github.io/PocketKnife/).
+Documentation is moving to [GitBook](https://axelrindle.gitbook.io/pocketknife/).
 
 ## Used by
 
