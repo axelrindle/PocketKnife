@@ -25,22 +25,25 @@ class PocketConfig(
         if (file.exists()) return
 
         plugin.logger.info("Creating new config file '$name' at ${file.absolutePath}")
-        if (plugin.dataFolder.exists() || plugin.dataFolder.mkdirs()) {
 
-            // check whether to create parent directories
-            if (plugin.dataFolder.absolutePath != file.parentFile?.absolutePath)
-                file.parentFile.mkdirs()
-
-            if (file.createNewFile()) {
-                if (defaults != null) {
-                    val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
-                    FileWriter(file).use { IOUtils.write(string, it) }
-                }
-            } else {
-                plugin.logger.severe("Failed to create a config file for '$name'!")
-            }
-        } else {
+        if (plugin.dataFolder.exists().not() && plugin.dataFolder.mkdirs().not()) {
             plugin.logger.severe("Failed to create the directory '${plugin.dataFolder.absolutePath}'!")
+            return
+        }
+
+        // check whether to create parent directories
+        if (plugin.dataFolder.absolutePath != file.parentFile?.absolutePath) {
+            file.parentFile.mkdirs()
+        }
+
+        if (file.createNewFile().not()) {
+            plugin.logger.severe("Failed to create a config file for '$name'!")
+            return
+        }
+
+        if (defaults != null) {
+            val string = IOUtils.toString(defaults, StandardCharsets.UTF_8)
+            FileWriter(file).use { IOUtils.write(string, it) }
         }
     }
 
