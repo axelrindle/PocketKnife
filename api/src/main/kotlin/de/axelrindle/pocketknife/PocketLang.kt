@@ -18,6 +18,9 @@ class PocketLang(
 ) {
 
     companion object {
+        /**
+         * The name for the config which holds localization settings.
+         */
         const val CONFIG_NAME = "localization"
     }
 
@@ -125,6 +128,7 @@ class PocketLang(
      *
      * @return The localized string, the default localized string, or `null`.
      * @see String.format
+     * @since 2.2.0
      */
     fun localize(key: String, player: Player? = null, vararg args: Any?): String? {
         val localeConfig = getLocaleConfig(player?.locale) ?: getLocaleConfig()
@@ -147,6 +151,9 @@ class PocketLang(
         return supposed?.format(*args)
     }
 
+    /**
+     * Old version of [localize]. Use the new one instead.
+     */
     @Deprecated(
         "Only kept for compatibility. Use the new function.",
         ReplaceWith("localize(key, null, args)")
