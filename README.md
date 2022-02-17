@@ -15,7 +15,7 @@
   <a href="https://jitpack.io/#axelrindle/PocketKnife">
     <img src="https://jitpack.io/v/axelrindle/PocketKnife.svg" alt="JitPack Status">
   </a>
-  <img src="https://img.shields.io/badge/Kotlin-1.5.10-7F52FF">
+  <img src="https://img.shields.io/badge/Kotlin-1.6.10-7F52FF">
 </p>
 
 ----
