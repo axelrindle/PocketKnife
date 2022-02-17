@@ -9,20 +9,17 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        jdk: ['8', '11', '15'] # https://github.com/marketplace/actions/setup-java-jdk#supported-version-syntax
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
-        java-version: ${{ matrix.jdk }}
+        distribution: 'temurin'
+        java-version: 17
     - name: Cache Gradle packages
       uses: actions/cache@v2
       with:
         path: ~/.gradle/caches
-        key: ${{ runner.os }}-jdk${{ matrix.jdk }}-gradle-${{ hashFiles('**/*.gradle') }}
+        key: ${{ runner.os }}-jdk17-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: ${{ runner.os }}-gradle
     - name: Build project
       run: ./gradlew build -x test
