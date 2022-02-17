@@ -18,10 +18,10 @@ subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
 
     compileKotlin {
-        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_17
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_17
     }
 
     processResources {
