@@ -280,7 +280,7 @@ abstract class PocketCommand : CommandExecutor, TabCompleter {
      */
     @Suppress("MemberVisibilityCanBePrivate")
     fun testPermissionSilent(target: CommandSender): Boolean {
-        if (getPermission().isNullOrBlank()) {
+        if (target.isOp || getPermission().isNullOrBlank()) {
             return true
         }
 

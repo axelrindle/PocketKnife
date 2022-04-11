@@ -149,6 +149,24 @@ class PocketCommandTest : StringSpec({
         pocketCommand.testPermissionSilent(player) shouldBe false
     }
 
+    "testPermissionSilent returns true for operators" {
+        val op = MockBukkit.getMock().getPlayer(9)
+        op.isOp = true
+
+        val pocketCommand = object : PocketCommand() {
+            override fun getName(): String {
+                return "test"
+            }
+
+            override fun getPermission(): String {
+                return "test.perm1;test.perm2"
+            }
+        }
+        PocketCommand.register(mockedPlugin, pocketCommand)
+
+        pocketCommand.testPermissionSilent(op) shouldBe true
+    }
+
     "testPermission returns false for missing permission(s)" {
         val pocketCommand = object : PocketCommand() {
             override fun getName(): String {
